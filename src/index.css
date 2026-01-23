@@ -1,0 +1,14 @@
+/* Importar fuentes de Google Fonts (Montserrat y Space Mono) */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+/* Tailwind directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Aplicar el fondo base y el color de texto a toda la aplicación usando las clases personalizadas */
+@layer base {
+  body {
+    @apply bg-raios-secondary text-raios-text-high font-sans;
+  }
+}
