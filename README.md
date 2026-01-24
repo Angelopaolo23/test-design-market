@@ -1,16 +1,82 @@
-# React + Vite
+# RAIOS - Marketplace de Arte
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Maqueteo visual para un marketplace de arte digital. Este proyecto implementa el design system RAIOS con un enfoque neo-brutalista y estética dark mode.
 
-Currently, two official plugins are available:
+## Propósito
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Este repositorio es un **maqueteo visual** (sin lógica de negocio) que será integrado posteriormente a un proyecto React existente. El objetivo es definir y validar:
 
-## React Compiler
+- Design system completo (colores, tipografía, spacing, iconografía)
+- Componentes UI reutilizables
+- Layout de landing page con grid masonry
+- Experiencia mobile-first
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Stack Tecnológico
 
-## Expanding the ESLint configuration
+| Tecnología | Versión | Uso |
+|------------|---------|-----|
+| React | 18.3.1 | Framework UI (JavaScript) |
+| Vite | 5.4.2 | Build tool |
+| Tailwind CSS | 3.4.1 | Estilos utility-first |
+| Framer Motion | 11.0.8 | Animaciones |
+| React Icons | 5.0.1 | Iconografía (Feather) |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Estructura del Proyecto
+
+```
+src/
+├── components/
+│   ├── ui/              # Building blocks (Button, ArtworkCard)
+│   ├── layout/          # Navbar, Footer, Container
+│   └── sections/        # Hero, FeaturedWorks
+├── pages/
+│   └── Landing.jsx      # Página principal
+├── styles/
+│   └── tokens.css       # Variables CSS del design system
+└── index.css            # Tailwind + clases de componentes
+```
+
+## Design System RAIOS
+
+### Colores
+
+| Token | Hex | Uso |
+|-------|-----|-----|
+| `raios-primary` | #4A1FFF | CTAs, acentos |
+| `raios-secondary` | #0A0218 | Fondo principal |
+| `raios-tertiary` | #8E5CFF | Efectos, gradientes |
+| `raios-text-high` | #FFFFFF | Texto principal |
+| `raios-text-support` | #A8A8B3 | Texto secundario |
+
+### Tipografía
+
+- **Space Mono** (`font-mono`): Headers, títulos, precios
+- **Montserrat** (`font-sans`): Body, descripciones
+
+### Principios
+
+- **Mobile-First**: Todo se diseña primero para mobile
+- **Sistema de 6px**: Spacing basado en múltiplos de 6px
+- **Neo-Brutalismo**: Sin bordes ni sombras en cards, obras como protagonistas
+
+## Comandos
+
+```bash
+# Instalar dependencias
+npm install
+
+# Desarrollo con hot reload
+npm run dev
+
+# Build de producción
+npm run build
+
+# Preview del build
+npm run preview
+```
+
+## Documentación
+
+- `RAIOS_Design_System.md` - Tokens y reglas de diseño completas
+- `CLAUDE.md` - Guía para desarrollo con Claude Code
+- `design-system-context/` - Contexto para integración al proyecto principal
