@@ -1,14 +1,124 @@
 /* Importar fuentes de Google Fonts (Montserrat y Space Mono) */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+/* Design System Tokens */
+@import './styles/tokens.css';
 
 /* Tailwind directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Aplicar el fondo base y el color de texto a toda la aplicación usando las clases personalizadas */
+/* Aplicar el fondo base y el color de texto a toda la aplicación */
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-raios-secondary text-raios-text-high font-sans;
+    @apply antialiased;
+    min-height: 100vh;
+  }
+
+  /* Headings use Space Mono */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-mono;
+  }
+}
+
+/* Component classes - usando @layer para compatibilidad con Tailwind */
+@layer components {
+  /* === BUTTONS === */
+  .btn {
+    @apply inline-flex items-center justify-center font-sans font-semibold;
+    @apply rounded-lg cursor-pointer select-none;
+    transition: var(--transition-normal);
+  }
+
+  .btn-primary {
+    @apply btn bg-raios-primary text-raios-text-high;
+    @apply hover:bg-white hover:text-raios-primary;
+    box-shadow: var(--shadow-glow-primary);
+  }
+
+  .btn-primary:hover {
+    box-shadow: var(--shadow-lg);
+  }
+
+  .btn-secondary {
+    @apply btn bg-transparent text-raios-primary;
+    @apply border-2 border-raios-primary;
+    @apply hover:bg-raios-primary hover:text-raios-text-high;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent text-raios-text-high;
+    @apply hover:bg-white/10;
+  }
+
+  .btn-sm { @apply px-3 py-1 text-sm; }
+  .btn-md { @apply px-4 py-2 text-base; }
+  .btn-lg { @apply px-8 py-3 text-lg; }
+
+  /* === NAVBAR GLASS === */
+  .nav-glass {
+    @apply fixed top-0 left-0 right-0;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border-bottom: 1px solid var(--glass-border);
+    z-index: var(--z-fixed);
+  }
+
+  /* === ART CARD === */
+  .art-card {
+    @apply relative overflow-hidden rounded-lg;
+    @apply cursor-pointer;
+    transition: var(--transition-normal);
+  }
+
+  .art-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .art-card-overlay {
+    @apply absolute inset-0;
+    background: linear-gradient(
+      to top,
+      rgba(10, 2, 24, 0.9) 0%,
+      rgba(10, 2, 24, 0.4) 40%,
+      transparent 100%
+    );
+  }
+
+  .art-card-content {
+    @apply absolute bottom-0 left-0 right-0 p-4;
+  }
+
+  /* === SECTION === */
+  .section {
+    @apply py-8 md:py-12;
+  }
+
+  .section-title {
+    @apply font-mono text-2xl md:text-3xl text-raios-text-high mb-4;
+  }
+
+  .section-subtitle {
+    @apply font-sans text-base text-raios-text-support;
+  }
+
+  /* === BADGE === */
+  .badge {
+    @apply inline-flex items-center px-2 py-1 rounded-full;
+    @apply text-xs font-mono uppercase tracking-wider;
+  }
+
+  .badge-primary {
+    @apply badge bg-raios-primary/20 text-raios-primary;
+  }
+
+  .badge-tertiary {
+    @apply badge bg-raios-tertiary/20 text-raios-tertiary;
   }
 }

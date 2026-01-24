@@ -2,6 +2,28 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Development Principles
+
+### Mobile-First (OBLIGATORIO)
+
+**Todo desarrollo debe ser pensado y construido desde mobile-first.**
+
+- Diseñar primero para pantallas pequeñas, luego escalar a desktop
+- Usar breakpoints de Tailwind en orden ascendente: `base` → `sm` → `md` → `lg` → `xl`
+- Cada funcionalidad y elemento estético debe ser consistente con la UX en mobile
+- Probar siempre primero en viewport móvil antes de verificar en desktop
+- Los estilos base (sin prefijo) aplican a mobile, los prefijos (`md:`, `lg:`) agregan para pantallas más grandes
+
+```jsx
+// ✅ CORRECTO: Mobile-first
+<div className="text-xl md:text-2xl lg:text-3xl">
+
+// ❌ INCORRECTO: Desktop-first
+<div className="text-3xl sm:text-xl">
+```
+
+---
+
 ## Commands
 
 - `npm run dev` - Start Vite dev server with HMR

@@ -6,6 +6,21 @@ Este documento consolida los lineamientos estéticos (Tokens de Diseño) definid
 
 ---
 
+### 📱 Principio Fundamental: Mobile-First
+
+**Todo diseño y desarrollo en RAIOS se construye desde mobile-first.**
+
+| Principio | Descripción |
+| :-------- | :---------- |
+| **Diseño base = Mobile** | Los estilos sin prefijo aplican a dispositivos móviles. |
+| **Escalado progresivo** | Usar breakpoints ascendentes: `base` → `md` (768px) → `lg` (1024px) → `xl` (1280px). |
+| **UX consistente** | Cada elemento debe ofrecer una experiencia óptima en mobile antes de adaptarse a desktop. |
+| **Contenido prioritario** | En mobile, mostrar lo esencial. En desktop, expandir con información adicional si aplica. |
+
+> **Regla:** Si un componente no funciona bien en mobile, no está terminado.
+
+---
+
 ### 🎨 Paleta de Colores (Electricidad y Dramatismo)
 
 Los colores se definen con nombres semánticos que reflejan su propósito en la interfaz.
@@ -53,6 +68,28 @@ Se utilizará un sistema de espaciado basado en $6\text{px}$ para un look único
 | `spacing-2` | 12px       | 2x            | Padding de botones, márgenes pequeños.                            |
 | `spacing-4` | 24px       | 4x            | Márgenes de _Masonry Grid_ (`gutter`), separación de componentes. |
 | `spacing-8` | 48px       | 8x            | Márgenes entre secciones grandes.                                 |
+
+---
+
+### 🎯 Iconografía (Escala de Iconos)
+
+Los iconos siguen el sistema de espaciado de 6px para mantener consistencia visual. Se utiliza **Feather Icons** (via `react-icons/fi`) por su estilo outline limpio.
+
+| Token       | Tamaño (px) | Multiplicador | Uso Principal                                              |
+| :---------- | :---------- | :------------ | :--------------------------------------------------------- |
+| `icon-sm`   | 18px        | 3x            | Metadatos, badges, indicadores secundarios.                |
+| `icon-md`   | 24px        | 4x            | Acciones principales, navegación, botones de acción.       |
+| `icon-lg`   | 30px        | 5x            | Estados destacados, elementos de énfasis.                  |
+| `icon-xl`   | 36px        | 6x            | Hero sections, estados vacíos, ilustraciones.              |
+
+#### Consideraciones Responsive
+
+| Contexto           | Tamaño Recomendado | Área Táctil Mínima |
+| :----------------- | :----------------- | :----------------- |
+| Mobile (< 768px)   | `icon-md` (24px)   | 48px               |
+| Desktop (≥ 768px)  | `icon-sm` (18-20px)| 40px               |
+
+> **Nota UX:** Los elementos interactivos deben tener un área táctil mínima de 44-48px en dispositivos móviles para cumplir con las guidelines de accesibilidad.
 
 ---
 
