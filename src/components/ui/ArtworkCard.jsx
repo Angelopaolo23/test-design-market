@@ -61,8 +61,8 @@ export function ArtworkCard({
           }}
         />
 
-        {/* Acciones flotantes - aparecen en hover */}
-        <div className="absolute top-3 right-3 md:top-3 md:right-3 flex flex-col gap-2 md:gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+        {/* Acciones flotantes - siempre visibles en mobile, hover en desktop */}
+        <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 md:translate-y-2 md:group-hover:translate-y-0">
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}

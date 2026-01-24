@@ -106,3 +106,95 @@ Esta sección define las directrices visuales para los componentes clave de la i
 | **Bloque Promocional Audaz (Artista)** | Bloque horizontal `w-full`. Imagen con filtro/opacidad baja sobre fondo `raios-secondary`. **Título H1/H2** en `font-mono` y `raios-text-high`.     | **Secundario**, `raios-text-high`, `raios-tertiary` (acento). | Interrupción visual, jerarquía alta, dramático.           |
 | **Bloque de Categoría/Noticia**        | Bloque vertical (ej. `w-1/2`). Fondo `raios-secondary`. **Línea de Separación** en color `raios-primary` para energía. Título en `font-mono`.       | **Primario** (línea), **Secundario**, `raios-text-high`.      | Informativo, angular, contenido curado.                   |
 | **Vistas Críticas (Detalle/Carrito)**  | **NO Glassmorphism**. Fondo sólido `raios-secondary`. Texto de alto contraste. Layout asimétrico (60/40) a favor de la imagen.                      | **Secundario**, `raios-text-high`.                            | Legibilidad, Claridad, Dramatismo simple.                 |
+
+---
+
+### 🎬 Animaciones y Transiciones
+
+Sistema de animaciones estandarizado para mantener coherencia visual en toda la aplicación. Utiliza Framer Motion como motor principal.
+
+#### Duraciones
+
+| Token | Valor | Uso Principal |
+| :---- | :---- | :------------ |
+| `duration-fast` | 150ms | Hovers, micro-interacciones, cambios de estado inmediatos. |
+| `duration-standard` | 300ms | Transiciones de UI generales, apariciones/desapariciones. |
+| `duration-slow` | 500ms | Carruseles, entradas/salidas de página, animaciones de énfasis. |
+
+#### Curvas de Easing (Framer Motion)
+
+| Token | Valor | Uso Principal |
+| :---- | :---- | :------------ |
+| `ease-out` | `[0, 0, 0.2, 1]` | Entradas de elementos (aparecen rápido, desaceleran). |
+| `ease-in-out` | `[0.4, 0, 0.2, 1]` | Movimientos continuos, transiciones de posición. |
+| `ease-spring` | `{ type: "spring", stiffness: 300, damping: 30 }` | Rebote sutil, sensación orgánica. |
+
+#### Variantes Reutilizables (Framer Motion)
+
+```javascript
+// Configuración base exportable
+export const raios_transitions = {
+  fast: { duration: 0.15, ease: [0, 0, 0.2, 1] },
+  standard: { duration: 0.3, ease: [0, 0, 0.2, 1] },
+  slow: { duration: 0.5, ease: [0.4, 0, 0.2, 1] },
+  spring: { type: "spring", stiffness: 300, damping: 30 },
+};
+
+// Variantes de aparición
+export const fade_variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: raios_transitions.standard },
+  exit: { opacity: 0, transition: raios_transitions.fast },
+};
+
+// Variantes de slide (entrada desde abajo)
+export const slide_up_variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: raios_transitions.standard },
+  exit: { opacity: 0, y: -10, transition: raios_transitions.fast },
+};
+
+// Variantes de escala
+export const scale_variants = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: { opacity: 1, scale: 1, transition: raios_transitions.standard },
+  exit: { opacity: 0, scale: 0.95, transition: raios_transitions.fast },
+};
+
+// Variantes para carrusel (item central vs laterales)
+export const carousel_variants = {
+  center: {
+    scale: 1,
+    opacity: 1,
+    filter: "blur(0px)",
+    zIndex: 10,
+    transition: raios_transitions.slow
+  },
+  side: {
+    scale: 0.75,
+    opacity: 0.5,
+    filter: "blur(4px)",
+    zIndex: 5,
+    transition: raios_transitions.slow
+  },
+  hidden: {
+    scale: 0.5,
+    opacity: 0,
+    filter: "blur(8px)",
+    zIndex: 0,
+    transition: raios_transitions.standard
+  },
+};
+```
+
+#### Reglas de Uso
+
+| Contexto | Duración | Easing | Ejemplo |
+| :------- | :------- | :----- | :------ |
+| Hover en botones | `fast` | `ease-out` | Cambio de color/escala en botón. |
+| Aparición de cards | `standard` | `ease-out` | Cards entrando en viewport (whileInView). |
+| Transición de carrusel | `slow` | `ease-in-out` | Cambio de obra activa en carrusel. |
+| Modales/Overlays | `standard` | `ease-out` | Apertura/cierre de modales. |
+| Navegación de página | `slow` | `ease-in-out` | Transiciones entre rutas. |
+
+> **Principio:** Las animaciones deben sentirse naturales y no interrumpir el flujo del usuario. Menos es más.

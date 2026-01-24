@@ -29,20 +29,20 @@ export function Hero() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
+    <section className="relative min-h-[85vh] md:min-h-screen flex items-center overflow-hidden">
       {/* Background con gradiente sutil */}
       <div className="absolute inset-0 z-0">
-        {/* Orbe de luz principal */}
+        {/* Orbe de luz principal - responsivo */}
         <div
-          className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[600px] rounded-full opacity-30"
+          className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[300px] h-[250px] md:w-[800px] md:h-[600px] rounded-full opacity-30"
           style={{
             background:
               'radial-gradient(ellipse, rgba(74, 31, 255, 0.4) 0%, rgba(142, 92, 255, 0.1) 50%, transparent 70%)',
           }}
         />
-        {/* Orbe secundario */}
+        {/* Orbe secundario - responsivo */}
         <div
-          className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full opacity-20"
+          className="absolute bottom-0 right-0 w-[200px] h-[200px] md:w-[400px] md:h-[400px] rounded-full opacity-20"
           style={{
             background:
               'radial-gradient(circle, rgba(142, 92, 255, 0.5) 0%, transparent 60%)',
@@ -114,7 +114,7 @@ export function Hero() {
             variants={item_variants}
             className="mt-12 pt-8 border-t border-raios-text-support/20"
           >
-            <div className="grid grid-cols-3 gap-8 max-w-md">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-8 max-w-md">
               <div>
                 <p className="text-2xl font-mono font-bold text-raios-text-high">
                   2.5K+
