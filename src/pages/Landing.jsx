@@ -138,6 +138,14 @@ export function Landing() {
     console.log('Category changed:', category);
   };
 
+  const handle_add_to_cart = (artwork_id) => {
+    console.log('Add to cart:', artwork_id);
+  };
+
+  const handle_favorite = (artwork_id) => {
+    console.log('Toggle favorite:', artwork_id);
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Navbar fijo con glassmorphism */}
@@ -155,7 +163,9 @@ export function Landing() {
           artworks={carousel_artworks}
           on_artwork_click={handle_artwork_click}
           on_category_change={handle_category_change}
-          autoplay_delay={5000}
+          on_add_to_cart={handle_add_to_cart}
+          on_favorite={handle_favorite}
+          autoplay_delay={8000}
         />
 
         {/* Obras Destacadas */}

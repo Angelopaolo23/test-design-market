@@ -109,6 +109,56 @@ Esta sección define las directrices visuales para los componentes clave de la i
 
 ---
 
+### 🔲 Border Radius (Esquinas)
+
+El estilo neo-brutalista prefiere esquinas más angulares. Se define un sistema consistente:
+
+| Token | Valor | Uso Principal |
+| :---- | :---- | :------------ |
+| `rounded-none` | 0px | Imágenes de obras de arte (protagonismo sin distracción). |
+| `rounded-sm` | 4px | Esquinas sutiles en elementos secundarios. |
+| `rounded` | 6px | Tags, badges, chips de categoría. |
+| `rounded-lg` | 12px | Botones, inputs, cards de UI. |
+| `rounded-full` | 9999px | Botones de acción circulares (favorito, carrito). |
+
+> **Principio:** Las obras de arte no llevan rounded (el arte es el protagonista). Los elementos de UI sí pueden tenerlo.
+
+---
+
+### 🪟 Glassmorphism y Sombras
+
+El glassmorphism complementa el neo-brutalismo agregando profundidad y sofisticación sin perder la energía audaz.
+
+#### Tokens de Glassmorphism
+
+| Token | Valor | Uso Principal |
+| :---- | :---- | :------------ |
+| `glass-light` | `bg-white/10 backdrop-blur-md border-white/20` | Botones secundarios, overlays sutiles. |
+| `glass-dark` | `bg-black/30 backdrop-blur-md border-white/10` | Botones sobre imágenes, acciones flotantes. |
+| `glass-surface` | `bg-raios-secondary/80 backdrop-blur-lg border-raios-text-support/10` | Navbar, modales, paneles flotantes. |
+
+#### Tokens de Sombras
+
+| Token | Valor | Uso Principal |
+| :---- | :---- | :------------ |
+| `shadow-glow` | `0 0 20px rgba(74, 31, 255, 0.3)` | Elementos destacados, hover en CTAs primarios. |
+| `shadow-float` | `0 8px 32px rgba(0, 0, 0, 0.4)` | Cards en carrusel, elementos que "flotan". |
+| `shadow-subtle` | `0 4px 16px rgba(0, 0, 0, 0.2)` | Elevación sutil, dropdowns. |
+
+#### Cuándo usar cada uno
+
+| Contexto | Estilo | Ejemplo |
+| :------- | :----- | :------ |
+| Fondos principales | Sólido (`raios-secondary`) | Body, secciones. |
+| Elementos flotantes | Glassmorphism + shadow | Navbar, modales, tooltips. |
+| Botones sobre imágenes | `glass-dark` | Favorito/carrito en cards. |
+| CTAs primarios | Sólido (`raios-primary`) | Deben destacar sobre el glass. |
+| Cards en spotlight | `shadow-float` | Carrusel, elementos destacados. |
+
+> **Principio:** El glassmorphism crea capas y profundidad. Usarlo en elementos de UI, no en el contenido artístico.
+
+---
+
 ### 🎬 Animaciones y Transiciones
 
 Sistema de animaciones estandarizado para mantener coherencia visual en toda la aplicación. Utiliza Framer Motion como motor principal.
@@ -198,3 +248,96 @@ export const carousel_variants = {
 | Navegación de página | `slow` | `ease-in-out` | Transiciones entre rutas. |
 
 > **Principio:** Las animaciones deben sentirse naturales y no interrumpir el flujo del usuario. Menos es más.
+
+---
+
+### 🏗️ Arquitectura de Capas (Glassmorphism Layers)
+
+RAIOS utiliza un sistema de capas que crea profundidad y sofisticación. El background animado es parte de la identidad visual de la marca.
+
+#### Sistema de Capas
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  CAPA 4: Modales de alta prioridad (confirmaciones, alerts) │  z-50
+├─────────────────────────────────────────────────────────────┤
+│  CAPA 3: Popovers/Sheets (detalle obra, carrito, config)    │  z-40
+├─────────────────────────────────────────────────────────────┤
+│  CAPA 2: Navegación fija (navbar, tabs)                     │  z-30
+├─────────────────────────────────────────────────────────────┤
+│  CAPA 1: Contenido principal (landing, masonry, listas)     │  z-10
+├─────────────────────────────────────────────────────────────┤
+│  CAPA 0: Background dinámico (siempre visible)              │  z-0
+└─────────────────────────────────────────────────────────────┘
+```
+
+#### Descripción de Capas
+
+| Capa | z-index | Contenido | Estilo |
+| :--- | :------ | :-------- | :----- |
+| **Capa 0** | z-0 | Background animado (orbes, gradientes, partículas) | Fijo, siempre visible, define identidad visual |
+| **Capa 1** | z-10 | Contenido scrolleable (landing, masonry, listas) | Puede ser semi-transparente en partes |
+| **Capa 2** | z-30 | Navbar, tabs de navegación | `glass-surface` con backdrop-blur |
+| **Capa 3** | z-40 | Vistas de detalle, carrito, sheets | `glass-surface` como popover/modal |
+| **Capa 4** | z-50 | Alertas, confirmaciones, toasts | `glass-surface` o sólido según urgencia |
+
+#### Background Dinámico (Capa 0)
+
+El background es parte de la identidad de RAIOS. Características:
+
+| Aspecto | Especificación |
+| :------ | :------------- |
+| **Tipo** | Gradientes animados, orbes de luz, efectos sutiles |
+| **Colores** | Derivados de la paleta RAIOS (primary, secondary, tertiary) |
+| **Movimiento** | Lento y sutil, no distrae del contenido |
+| **Rendimiento** | Preferir CSS/SVG sobre canvas/WebGL para mejor performance |
+| **Personalización** | MVP: 1 background por defecto. Futuro: 2-3 variantes opcionales |
+
+#### Superficies Glassmorphism (Capas 2-4)
+
+Componentes que "flotan" sobre el background usan glassmorphism para dejar entrever la capa inferior.
+
+```jsx
+// Componente GlassSurface base
+<div className="
+  bg-raios-secondary/80
+  backdrop-blur-xl
+  border border-white/10
+  shadow-[0_8px_32px_rgba(0,0,0,0.4)]
+">
+  {children}
+</div>
+```
+
+#### Transiciones entre Capas
+
+| Transición | Animación | Duración |
+| :--------- | :-------- | :------- |
+| **Abrir popover** | `scale: 0.95 → 1` + `opacity: 0 → 1` | 300ms |
+| **Cerrar popover** | `scale: 1 → 0.98` + `opacity: 1 → 0` | 200ms |
+| **Slide-in (carrito)** | `x: 100% → 0` + `opacity: 0 → 1` | 300ms |
+| **Card → Detalle** | Card hace `scale: 1 → 1.02`, luego fade a popover | 400ms total |
+
+#### Ejemplo: Flujo de navegación
+
+```
+Usuario en Landing (Capa 1)
+        ↓ click en artwork card
+Card hace scale-up sutil (feedback)
+        ↓
+Fade del contenido de Capa 1
+        ↓
+Aparece Detalle (Capa 3) como glassmorphism popover
+        ↓
+Background (Capa 0) visible a través del blur
+```
+
+#### Principios de Diseño
+
+1. **El background es identidad**: Define el "look" de RAIOS, siempre presente
+2. **Glassmorphism = profundidad**: Crea sensación de capas y modernidad
+3. **El arte es protagonista**: Las obras nunca compiten con el background (imágenes sólidas, sin transparencia)
+4. **Transiciones fluidas**: La navegación se siente como "moverse entre capas", no "cambiar de página"
+5. **Performance primero**: Backgrounds CSS > Canvas > WebGL
+
+> **Visión:** RAIOS se siente como una app moderna de alta gama, donde el usuario navega entre superficies flotantes sobre un ambiente visual distintivo.
