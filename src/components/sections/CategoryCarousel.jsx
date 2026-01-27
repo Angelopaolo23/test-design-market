@@ -227,10 +227,8 @@ export function CategoryCarousel({
         {/* Container de items - Flexbox centrado */}
         <div className="flex items-center justify-center gap-4 md:gap-8 lg:gap-12">
           <AnimatePresence mode="popLayout">
-            {filtered_artworks.length > 0 ? (
-              <>
-                {/* Item izquierdo */}
-                {filtered_artworks.length > 1 && prev !== -1 && (
+            {/* Item izquierdo */}
+            {filtered_artworks.length > 1 && prev !== -1 && (
                   <motion.div
                     key={`left-${filtered_artworks[prev]?.artwork_id}`}
                     initial={{ opacity: 0, scale: 0.6 }}
@@ -298,11 +296,14 @@ export function CategoryCarousel({
                     />
                   </motion.div>
                 )}
-              </>
-            ) : (
+
+            {/* Mensaje cuando no hay obras */}
+            {filtered_artworks.length === 0 && (
               <motion.p
+                key="no-artworks"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
                 className="text-raios-text-support font-sans text-lg py-20"
               >
                 No hay obras en esta categoría

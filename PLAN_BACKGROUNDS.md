@@ -13,39 +13,44 @@
 - Backgrounds: CSS/SVG preferido (mejor rendimiento)
 
 ### Decisiones Tomadas
-- [ ] Background por defecto seleccionado
-- [ ] Variantes adicionales (máximo 2-3 para futuro)
-- [ ] Colores adaptados a paleta RAIOS
+- [x] Background por defecto seleccionado: **WaveGrid (Waves)**
+- [x] Variantes adicionales: **MagneticField (Aurora)**, **ParticleGrid (P. Grid)**
+- [x] Colores adaptados a paleta RAIOS
+- [x] Backgrounds descartados eliminados del proyecto
 
 ---
 
 ## Checklist de Implementación
 
 ### Fase 1: Evaluación de Backgrounds
-- [ ] Recibir ruta del repositorio de backgrounds
-- [ ] Explorar estructura y tecnologías de cada background
-- [ ] Evaluar compatibilidad con stack actual
-- [ ] Evaluar rendimiento de cada opción
-- [ ] Documentar pros/contras de cada background
-- [ ] Presentar opciones con recomendaciones al usuario
+- [x] Recibir ruta del repositorio de backgrounds
+- [x] Explorar estructura y tecnologías de cada background
+- [x] Evaluar compatibilidad con stack actual
+- [x] Evaluar rendimiento de cada opción
+- [x] Documentar pros/contras de cada background
+- [x] Presentar opciones con recomendaciones al usuario
 
 ### Fase 2: Selección y Adaptación
-- [ ] Usuario selecciona 1 background principal + 1-2 variantes
-- [ ] Adaptar colores a paleta RAIOS (primary, secondary, tertiary)
-- [ ] Crear componente `DynamicBackground.jsx`
-- [ ] Integrar en layout principal (Capa 0)
+- [x] Usuario selecciona 1 background principal + 1-2 variantes
+- [x] Adaptar colores a paleta RAIOS (primary, secondary, tertiary)
+- [x] Crear componentes de background (5 adaptados)
+- [x] Crear BackgroundSwitcher para testing visual
+- [x] Integrar en layout principal (Capa 0)
 - [ ] Verificar rendimiento en mobile y desktop
 
 ### Fase 3: Integración con Glassmorphism
-- [ ] Crear componente `GlassSurface.jsx`
-- [ ] Ajustar valores de blur/opacidad contra el background real
-- [ ] Crear variantes: `GlassModal`, `GlassPanel`, `GlassSheet`
-- [ ] Testear visualmente todas las combinaciones
+- [x] Crear componente `GlassSurface.jsx`
+- [x] Ajustar valores de blur/opacidad contra el background real
+- [x] Crear variantes: `GlassModal`, `GlassPanel`, `GlassSheet`
+- [x] Testear visualmente todas las combinaciones (demo en Landing)
 
 ### Fase 4: Implementación de Navegación por Capas
-- [ ] Actualizar layout principal con sistema de capas
-- [ ] Implementar transiciones entre capas
-- [ ] Crear vista de detalle de obra (primer popover real)
+- [x] Configurar React Router (BrowserRouter, Routes)
+- [x] Crear página ArtworkDetail (/artwork/:id)
+- [x] Componentes de detalle: ImageGallery, ArtworkInfo, QuantitySelector
+- [x] Sección de comentarios: CommentsSection
+- [x] Obras relacionadas: RelatedWorks
+- [x] Integración con CartPanel y MenuPanel
 - [ ] Testear flujo completo: Landing → Detalle → Volver
 
 ---
@@ -55,23 +60,140 @@
 | Fecha | Sesión | Progreso | Notas |
 | :---- | :----- | :------- | :---- |
 | 2026-01-24 | 1 | Design System actualizado con arquitectura de capas | Carrusel completado, glassmorphism definido |
-| | | | |
+| 2026-01-25 | 2 | Evaluación de backgrounds completada | 26 backgrounds evaluados, 5 recomendados para MVP |
+| 2026-01-25 | 3 | 5 backgrounds adaptados e integrados | TSX→JSX, colores RAIOS, BackgroundSwitcher creado |
+| 2026-01-26 | 4 | 5 backgrounds adicionales adaptados | Total: 10 backgrounds evaluados |
+| 2026-01-26 | 5 | Selección final: 3 backgrounds | Waves (default), Aurora, P. Grid |
+| 2026-01-26 | 6 | Fase 3 completada: Glassmorphism | GlassSurface, GlassModal, GlassPanel, GlassSheet |
+| 2026-01-26 | 7 | Componentes especializados | MenuPanel, CartPanel, SearchOverlay (MVP) |
+| 2026-01-26 | 8 | MenuPanel y CartPanel responsive | Layouts adaptados: mobile vertical, desktop horizontal/2-col |
+| 2026-01-26 | 9 | Documentación actualizada | Patrones de layout responsivo documentados en Design System |
+| 2026-01-27 | 10 | Fase 4: ArtworkDetail | React Router + página detalle con Core, Comentarios, Relacionados |
+| 2026-01-27 | 11 | Correcciones ArtworkDetail | Mobile-first fix, Navbar correcto, Background visible |
+
+---
+
+## Pendiente próxima sesión
+
+**Tarea:** Modificar `ImageGallery.jsx` para soportar imágenes verticales y horizontales.
+
+**Estrategia:** Contenedor con `max-height` fijo + `object-contain` para que ambas orientaciones se vean completas sin recorte.
+
+**Archivo:** `/src/components/artwork/ImageGallery.jsx`
+
+---
+
+## ✅ Sesión Completada: 5 Backgrounds Adaptados
+
+### Tarea Completada
+Los 5 backgrounds recomendados fueron adaptados de TSX a JSX.
+
+### Backgrounds Seleccionados (3 finales)
+
+| # | Archivo | Nombre | Descripción | Intensidad | Estado |
+|:--|:--------|:-------|:------------|:-----------|:-------|
+| 1 | `WaveGrid.jsx` | Waves | Grid de ondas suaves | Baja | **DEFAULT** |
+| 2 | `MagneticField.jsx` | Aurora | Líneas de campo magnético | Baja | Alternativa |
+| 3 | `ParticleGrid.jsx` | P. Grid | Grid de partículas | Media | Alternativa |
+
+**Criterios de selección:**
+- Movimiento sutil pero perceptible
+- No compite con el arte (protagonista)
+- Funciona bien con glassmorphism
+- No fatiga la vista en uso prolongado
+
+### Archivos Finales (Selección definitiva)
+```
+/src/components/backgrounds/
+├── WaveGrid.jsx            # DEFAULT - Ondas suaves (intensidad baja)
+├── MagneticField.jsx       # Aurora - Líneas onduladas (intensidad baja)
+├── ParticleGrid.jsx        # P. Grid - Partículas en grid (intensidad media)
+├── BackgroundSwitcher.jsx  # Switcher para desarrollo (3 opciones)
+└── index.js                # Exports centralizados
+```
+
+### Integración
+- BackgroundSwitcher integrado en `Landing.jsx`
+- Build verificado exitosamente
+
+### Próximos Pasos
+1. [ ] Probar visualmente cada background con `npm run dev`
+2. [ ] Verificar rendimiento en mobile
+3. [ ] Seleccionar background por defecto definitivo
+4. [ ] Remover controles de BackgroundSwitcher para producción
 
 ---
 
 ## Repositorio de Backgrounds
 
-**Ruta local:** `[PENDIENTE - Usuario proporcionará]`
-**Cantidad de opciones:** ~14 backgrounds pre-filtrados
+**Ruta local:** `/Users/angelopaolo23/Desarrollador/CLAUCODE-ONWEB/background-markettest1`
+**Cantidad de opciones:** ~25 backgrounds
+
+### Análisis Técnico General
+
+| Aspecto | Hallazgo |
+| :------ | :------- |
+| **Tecnología** | TypeScript + React (.tsx) |
+| **Renderizado** | Canvas 2D (no WebGL) ✅ Buen rendimiento |
+| **Posicionamiento** | `position: fixed`, `z-index: -1` ✅ Listo para Capa 0 |
+| **Props** | Configurables (colores, velocidad, cantidad) ✅ Fácil adaptar |
+| **Conversión** | TSX → JSX (solo quitar tipos) ✅ Simple |
 
 ### Evaluación de Backgrounds
 
-| # | Nombre | Tecnología | Rendimiento | Compatibilidad | Seleccionado |
-| :- | :----- | :--------- | :---------- | :------------- | :----------- |
-| 1 | | | | | |
-| 2 | | | | | |
-| 3 | | | | | |
-| ... | | | | | |
+| # | Nombre | Descripción | Intensidad | Recomendado |
+| :- | :----- | :---------- | :--------- | :---------- |
+| 1 | FloatingParticles | Partículas flotantes con glow | Baja | ⭐ Sí |
+| 2 | EnergyWaves | Ondas de energía desde epicentros | Media | ⭐ Sí |
+| 3 | NeonCircuitGrid | Grid estilo PCB con pulsos | Media | ⭐ Sí |
+| 4 | MagneticField | Líneas de campo magnético | Baja | ⭐ Sí |
+| 5 | SacredGeometry | Geometría sagrada rotativa | Alta | Posible |
+| 6 | SpirographLightning | Espirógrafos con rayos | Alta | No |
+| 7 | ElectricConnections | Conexiones eléctricas | Media | Posible |
+| 8 | GlitchGrid | Grid con efecto glitch | Alta | No |
+| 9 | PlasmaBalls | Bolas de plasma | Alta | No |
+| 10 | OscilloscopeMandalas | Mandalas tipo osciloscopio | Alta | No |
+| 11 | HexagonalGrid | Grid hexagonal | Baja | ⭐ Sí |
+| 12 | FractalLightningTree | Árbol de rayos fractal | Alta | No |
+| 13 | FlowingGrid | Grid fluido | Media | Posible |
+| 14 | LightningBolts | Rayos eléctricos | Alta | No |
+| 15 | VectorDisplay | Display vectorial retro | Media | Posible |
+| 16 | ScanningGrid | Grid con scanning | Media | Posible |
+| 17 | FuturisticGrid | Grid futurista | Media | Posible |
+| 18 | RetroEffect | Efecto retro | Alta | No |
+| 19 | SynthwaveSacredGeometry | Geometría synthwave | Alta | No |
+| 20 | PlasmaEffect | Efecto plasma | Alta | No |
+| 21 | OscilloscopeWaves | Ondas de osciloscopio | Media | Posible |
+| 22 | KaleidoscopeElectric | Caleidoscopio eléctrico | Alta | No |
+| 23 | ParticleGrid | Grid de partículas | Media | ⭐ Sí |
+| 24 | ElectricBackground | Fondo eléctrico base | Media | Posible |
+| 25 | WaveGrid | Grid de ondas | Baja | ⭐ Sí |
+| 26 | CircuitBoardMandala | Mandala de circuito | Alta | No |
+
+### Recomendaciones para RAIOS
+
+**Criterios de selección:**
+1. Intensidad BAJA-MEDIA (no competir con el arte)
+2. Movimiento sutil (no distraer)
+3. Compatible con glassmorphism (debe verse bien con blur encima)
+
+**Top 5 recomendados:**
+1. **FloatingParticles** - Sutil, elegante, bajo consumo
+2. **EnergyWaves** - Energético pero no invasivo
+3. **HexagonalGrid** - Minimalista, tech feel
+4. **ParticleGrid** - Balance entre movimiento y sutileza
+5. **WaveGrid** - Ondas suaves, muy sutil
+
+**Adaptación de colores RAIOS:**
+```javascript
+// Props para adaptar a paleta RAIOS
+{
+  darkColor: '#0A0218',      // raios-secondary
+  particleColor: '#4A1FFF',  // raios-primary
+  // o
+  waveColor: '#8E5CFF',      // raios-tertiary
+}
+```
 
 ---
 

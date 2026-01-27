@@ -341,3 +341,226 @@ Background (Capa 0) visible a través del blur
 5. **Performance primero**: Backgrounds CSS > Canvas > WebGL
 
 > **Visión:** RAIOS se siente como una app moderna de alta gama, donde el usuario navega entre superficies flotantes sobre un ambiente visual distintivo.
+
+---
+
+### 🧩 Arquitectura de Componentes UI
+
+Decisiones de UX/UI sobre cuándo usar cada tipo de componente.
+
+#### Principio del Backdrop
+
+Cuando se abre un modal/panel/sheet, el backdrop debe:
+- **Mostrar el background animado** (Capa 0), no el contenido de la página
+- Usar `bg-raios-secondary/85 backdrop-blur-md` para oscurecer el contenido pero dejar entrever el background
+- La transición de animación ya comunica el cambio de capa
+
+```jsx
+// Backdrop correcto
+<div className="bg-raios-secondary/85 backdrop-blur-md" />
+
+// NO usar (muestra demasiado contenido)
+<div className="bg-black/60 backdrop-blur-sm" />
+```
+
+#### Matriz de Componentes
+
+| Componente | Uso correcto | NO usar para |
+|:-----------|:-------------|:-------------|
+| **GlassModal** | Confirmaciones, alertas, acciones rápidas | Contenido extenso, páginas completas |
+| **GlassPanel** | Menú de usuario, carrito, filtros | Navegación principal, contenido indexable |
+| **GlassSheet** | Acciones contextuales (mobile), quick actions | Formularios largos, contenido SEO |
+| **SearchOverlay** | Búsqueda global con resultados en vivo | - |
+| **Página completa** | Todo lo que necesita URL propia | - |
+
+#### Regla de Oro
+
+> Si el contenido merece URL propia, merece página propia.
+
+| Contenido | Tipo | Razón |
+|:----------|:-----|:------|
+| Categorías | Página | SEO, compartible |
+| Artistas | Página | Perfil público, SEO |
+| Detalle de obra | Página | SEO, compartible, contenido extenso |
+| Explorar | Página | Core del marketplace |
+| Crear/Editar obra | Página | Formulario extenso, borradores |
+| Carrito | Panel | Contexto de compra, temporal |
+| Menú usuario | Panel | Navegación secundaria |
+| Filtros | Panel/Sheet | Contextual, no necesita URL |
+| Confirmaciones | Modal | Acción puntual |
+| Quick view | Sheet | Preview, no reemplaza detalle |
+
+#### GlassPanel - Menú de Usuario
+
+Contenido estándar del panel de menú:
+
+```
+┌─────────────────────┐
+│ Avatar + Nombre     │
+│ @username           │
+├─────────────────────┤
+│ 🎨 Mis Obras        │
+│ 🛒 Mis Compras      │
+│ 💰 Ventas           │
+│ 👤 Perfil           │
+├─────────────────────┤
+│ ⚙️ Configuración    │
+│ 🚪 Cerrar Sesión    │
+└─────────────────────┘
+```
+
+#### SearchOverlay (Componente pendiente)
+
+Patrón de búsqueda global:
+
+```
+┌────────────────────────────────────────────┐
+│ 🔍 [___Buscar obras, artistas..._______]  X│
+├────────────────────────────────────────────┤
+│ Recientes                                  │
+│ • Búsqueda anterior 1                      │
+│ • Búsqueda anterior 2                      │
+├────────────────────────────────────────────┤
+│ Sugerencias                                │
+│ • 🎨 Categoría: Digital                    │
+│ • 👤 Artista: Carlos Mendez                │
+│ • 🖼️ Obra: Reflejos Nocturnos             │
+└────────────────────────────────────────────┘
+```
+
+Características:
+- Overlay de pantalla completa con GlassSurface
+- Input con autofocus al abrir
+- Resultados en tiempo real (debounced)
+- ESC o click fuera cierra
+- Mobile: pantalla completa sin backdrop visible
+
+---
+
+### 🎛️ Componentes Especializados (Patrones)
+
+#### MenuPanel - "Command Center"
+
+**Estructura:**
+```
+┌─────────────────────────────────────────┐
+│ HEADER: Avatar + Nombre + Btn Perfil    │
+├─────────────────────────────────────────┤
+│ STATS: Grid 3 cols (Obras/Ventas/Likes) │
+├─────────────────────────────────────────┤
+│ CTA: "Nueva Obra" (solo artistas)       │
+├─────────────────────────────────────────┤
+│ ACCIONES: Grid 2x2 con iconos color     │
+├─────────────────────────────────────────┤
+│ FOOTER: Config | Cerrar sesión          │
+└─────────────────────────────────────────┘
+```
+
+**Decisiones de diseño:**
+- Stats visibles = gamification sutil, el usuario ve su progreso
+- Grid de acciones = más escaneable que lista vertical
+- Iconos con color = identificación rápida por color
+- CTA prominente = incentivar creación de contenido
+
+#### CartPanel - "Studio Cart"
+
+**Estructura:**
+```
+┌─────────────────────────────────────────┐
+│ HEADER: "Tu Selección" + count + total  │
+├─────────────────────────────────────────┤
+│ ITEMS: Mini-cards con img + controles   │
+│   - Imagen 80x80                        │
+│   - Título + Artista + Precio           │
+│   - Controles cantidad inline           │
+├─────────────────────────────────────────┤
+│ RESUMEN: Subtotal / Envío / Total       │
+│ CTA: "Continuar compra" →               │
+│ LINK: ← "Seguir explorando"             │
+└─────────────────────────────────────────┘
+```
+
+**Decisiones de diseño:**
+- Header con total = usuario sabe cuánto lleva sin scroll
+- Items como cards = más visual que lista plana
+- Controles inline = editar sin salir del flujo
+- Resumen sticky = siempre visible para decisión
+- Paso intermedio = no es checkout, es preview
+
+#### SearchOverlay - "Discovery Portal"
+
+**Estructura MVP:**
+```
+┌─────────────────────────────────────────┐
+│ INPUT: Autofocus + placeholder + clear  │
+├─────────────────────────────────────────┤
+│ SIN QUERY: Historial recientes          │
+│ CON QUERY: Resultados agrupados         │
+│   - Obras (con imagen)                  │
+│   - Artistas (con avatar)               │
+│   - Categorías (como tags)              │
+├─────────────────────────────────────────┤
+│ BTN CLOSE: Centro inferior              │
+└─────────────────────────────────────────┘
+```
+
+**Decisiones de diseño:**
+- Overlay completo = enfoque total en búsqueda
+- Debounce 300ms = balance UX/performance
+- Resultados agrupados = fácil escaneo por tipo
+- Recientes = acceso rápido sin escribir
+
+#### Layouts Responsivos (Mobile → Desktop)
+
+Los componentes especializados implementan **layouts diferenciados** por breakpoint, no solo "escala con más padding".
+
+**MenuPanel - Layouts:**
+
+| Breakpoint | Layout | Descripción |
+|:-----------|:-------|:------------|
+| Mobile/md | Vertical centrado | Stack vertical, max-w-[95vw] md:max-w-md |
+| lg/xl | Dashboard horizontal | Fila 1: Usuario + Stats, Fila 2: Gestionar (grid 4-col) |
+
+```
+Desktop (lg+):
+┌─────────────────────────────────────────────────────────────┐
+│  [Avatar] Nombre        │    STATS                          │
+│          @username      │  [Obras] [Ventas] [Likes]         │
+│  [   Ver perfil    ]    │                                   │
+├─────────────────────────────────────────────────────────────┤
+│  GESTIONAR                                                  │
+│  [Mis Obras] [Ventas] [Compras] [Favoritos]    [Nueva Obra] │
+├─────────────────────────────────────────────────────────────┤
+│  [⚙ Configuración]                      [→ Cerrar sesión]  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**CartPanel - Layouts:**
+
+| Breakpoint | Layout | Descripción |
+|:-----------|:-------|:------------|
+| Mobile/md | Vertical centrado | Stack: header → items (scroll) → resumen |
+| lg/xl | Dos columnas | Izq: items scrolleables, Der: resumen sticky |
+
+```
+Desktop (lg+):
+┌─────────────────────────────────────────────────────────────┐
+│  TU SELECCIÓN           │    RESUMEN DEL PEDIDO            │
+│  3 obras en tu carrito  │                                   │
+├─────────────────────────┤    Subtotal: $8,700              │
+│  [Item 1]               │    Envío: Gratis                  │
+│  [Item 2]               │    ───────────────                │
+│  [Item 3]               │    Total: $8,700                  │
+│                         │                                   │
+│  ← Seguir explorando    │    [  Continuar compra  →  ]     │
+│                         │    ✓ Pago seguro ✓ Envío gratis  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+#### Principios de Diseño Responsivo
+
+1. **Transformar, no escalar**: En desktop los layouts cambian estructuralmente, no solo agregan padding
+2. **Mobile = vertical**: Stack de secciones en una columna
+3. **Desktop = horizontal/grid**: Aprovechar el ancho con columnas y filas
+4. **Elementos prioritarios**: En mobile mostrar lo esencial, en desktop expandir con más info
+5. **Acciones contextuales**: En mobile al final, en desktop a la derecha o en su propia columna
