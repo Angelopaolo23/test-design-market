@@ -4,6 +4,8 @@
 
 Este documento consolida los lineamientos estéticos (Tokens de Diseño) definidos para el marketplace RAIOS. El objetivo es lograr un look audaz, energético y dramático, que rompa con la estética de lujo tradicional.
 
+> **Implementación:** Todos los tokens de diseño están centralizados en `tailwind.config.js`. No se usan archivos CSS de tokens separados. Esto garantiza una única fuente de verdad y autocomplete en el IDE.
+
 ---
 
 ### 📱 Principio Fundamental: Mobile-First
