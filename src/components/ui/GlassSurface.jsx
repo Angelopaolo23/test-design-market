@@ -41,9 +41,9 @@ const GlassSurface = forwardRef(function GlassSurface(
   const variant_classes = {
     light: 'bg-white/10 backdrop-blur-md',
     dark: 'bg-black/30 backdrop-blur-md',
-    surface: 'bg-raios-secondary/80 backdrop-blur-xl',
-    // Variante 'content' para secciones de contenido principal
-    // 60% opacidad + blur suave
+    // 75% opacidad + blur suave para navbar/footer/paneles
+    surface: 'bg-raios-secondary/75 backdrop-blur-sm',
+    // 60% opacidad + blur suave para secciones de contenido
     content: 'bg-[rgba(10,2,24,0.60)] backdrop-blur-sm',
   };
 

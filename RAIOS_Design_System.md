@@ -55,6 +55,8 @@ La escala de tamaño de fuente se mapeará directamente en las clases de Tailwin
 | `text-xl`   | Título H3 (Título de Obra en Card) | 24px         |
 | `text-lg`   | Subtítulos H4 / Navegación         | 20px         |
 | `text-base` | Cuerpo de Texto (P)                | 16px         |
+| `text-sm`   | Metadatos, helper text, descripciones secundarias | 14px |
+| `text-xs`   | Labels de formulario, badges, timestamps | 12px |
 
 ---
 
@@ -102,10 +104,11 @@ Esta sección define las directrices visuales para los componentes clave de la i
 | **Header (NavBar)**                    | **Glassmorphism Sutil**. Fondo `raios-secondary` (#0A0218) con opacidad media (`/90`) y `backdrop-blur-sm`. Logo y navegación en `raios-text-high`. | **Secundario**, `raios-text-high`, `font-mono`.               | Flotante, tecnológico, alto contraste.                    |
 | **Botón Primario (CTA)**               | Fondo `raios-primary`. Texto `raios-text-high`. **Hover** con inversión de color (Fondo blanco, texto `raios-primary`).                             | **Primario**, `raios-text-high`.                              | Máximo impacto y CTA de Energía.                          |
 | **Botón Secundario**                   | **Transparente** con borde delgado en `raios-primary`. Texto en `raios-primary`. **Hover** con fondo lleno de `raios-primary`.                      | **Primario** (para borde y texto).                            | Acción de soporte, mantiene la energía sin ser dominante. |
+| **Botón Ghost**                        | Sin fondo, sin border. Texto `raios-text-high`. **Hover**: `bg-white/10` (feedback visual sutil). | `raios-text-high`, `bg-white/10`. | Acciones terciarias, links de navegación, acciones sutiles. |
 | **Art Card / Masonry**                 | Sin bordes ni sombras. Layout de grilla irregular. Texto clave (`font-mono`) en `raios-text-high` flotando sobre la imagen.                         | **Secundario**, `raios-text-high`, `font-mono`.               | Audaz, experimental, la obra es protagonista.             |
 | **Bloque Promocional Audaz (Artista)** | Bloque horizontal `w-full`. Imagen con filtro/opacidad baja sobre fondo `raios-secondary`. **Título H1/H2** en `font-mono` y `raios-text-high`.     | **Secundario**, `raios-text-high`, `raios-tertiary` (acento). | Interrupción visual, jerarquía alta, dramático.           |
 | **Bloque de Categoría/Noticia**        | Bloque vertical (ej. `w-1/2`). Fondo `raios-secondary`. **Línea de Separación** en color `raios-primary` para energía. Título en `font-mono`.       | **Primario** (línea), **Secundario**, `raios-text-high`.      | Informativo, angular, contenido curado.                   |
-| **Vistas Críticas (Detalle/Settings)** | Secciones de contenido envueltas en `GlassSurface variant="content"` para separación clara del background. Layout asimétrico (60/40) a favor de la imagen. | **Secundario**, `raios-text-high`, **`glass-content`**.       | Legibilidad, Claridad, Separación visual.                 |
+| **Vistas Críticas (Detalle/Settings)** | Secciones de contenido envueltas en `GlassSurface variant="content"` para separación clara del background. Layout asimétrico (60/40) a favor de la imagen. | **Secundario**, `raios-text-high`, **`glass_content`**.       | Legibilidad, Claridad, Separación visual.                 |
 
 > **IMPORTANTE - Clarificación sobre "Vistas Críticas":**
 >
@@ -142,6 +145,105 @@ El estilo neo-brutalista prefiere esquinas más angulares. Se define un sistema 
 
 ---
 
+### 📱 Breakpoints
+
+| Prefijo | Min-width | Uso típico |
+| :------ | :-------- | :--------- |
+| (base) | 0px | Mobile phones |
+| `sm` | 640px | Mobile landscape |
+| `md` | 768px | Tablets |
+| `lg` | 1024px | Desktop |
+| `xl` | 1280px | Desktop grande |
+| `2xl` | 1536px | Ultrawide |
+
+---
+
+### 📝 Componentes de Formulario
+
+#### Input Base
+- Fondo: `bg-white/5`
+- Border: `border border-raios-text-support/20`
+- Border focus: `focus:border-raios-primary focus:ring-1 focus:ring-raios-primary/30`
+- Texto: `text-raios-text-high`
+- Placeholder: `placeholder:text-raios-text-support/50`
+- Rounded: `rounded-lg`
+- Padding: `px-4 py-3`
+- Font: `font-sans`
+
+#### Estados
+
+| Estado | Estilo |
+| :----- | :----- |
+| Default | Border `raios-text-support/20` |
+| Focus | Border `raios-primary` + ring sutil |
+| Error | Border `red-500` + mensaje rojo debajo |
+| Disabled | `opacity-50 cursor-not-allowed` |
+
+#### FormField (wrapper)
+Combina: Label (`font-mono`, `text-xs`, `uppercase`) + Input + Helper/Error text
+
+#### Toggle
+- Track off: `bg-raios-text-support/30`
+- Track on: `bg-raios-primary`
+- Thumb: `bg-white`
+- Transición: 200ms
+
+#### Textarea
+Mismos estilos que Input, con `min-h-[120px]` y `resize-y`
+
+---
+
+### 🔔 Sistema de Notificaciones (Toast)
+
+#### Tipos y Colores
+
+| Tipo | Icono | Color acento |
+| :--- | :---- | :----------- |
+| `success` | FiCheck | `#22C55E` (green-500) |
+| `error` | FiX | `#EF4444` (red-500) |
+| `warning` | FiAlertTriangle | `#F59E0B` (amber-500) |
+| `info` | FiInfo | `raios-primary` |
+
+#### Especificaciones
+- Base: `GlassSurface variant="surface"`
+- Posición default: `top-right`
+- Duración default: 5000ms
+- Max visible: 5 toasts
+- Animación entrada: slide-in desde derecha + fade
+- Animación salida: fade-out
+
+#### Estructura
+```
+┌─────────────────────────────────────┐
+│ [Icon] Título                    [X]│
+│       Mensaje opcional              │
+│       [Acción opcional]             │
+└─────────────────────────────────────┘
+```
+
+---
+
+### 📭 Estados Vacíos (EmptyState)
+
+#### Variantes Predefinidas
+
+| Variante | Icono | Título default |
+| :------- | :---- | :------------- |
+| `no_results` | FiSearch | "Sin resultados" |
+| `no_items` | FiPackage | "No hay elementos" |
+| `no_favorites` | FiHeart | "Sin favoritos" |
+| `no_comments` | FiMessageCircle | "Sin comentarios" |
+| `error` | FiAlertCircle | "Algo salió mal" |
+
+#### Estilos
+- Icono: `text-raios-text-support/40`, tamaño `icon-xl` (36px)
+- Título: `font-mono text-lg text-raios-text-high`
+- Descripción: `font-sans text-raios-text-support`
+- Centrado vertical y horizontal
+- Animación entrada: fade + scale sutil
+
+---
+
 ### 🪟 Glassmorphism y Sombras
 
 El glassmorphism complementa el neo-brutalismo agregando profundidad y sofisticación sin perder la energía audaz.
@@ -150,23 +252,25 @@ El glassmorphism complementa el neo-brutalismo agregando profundidad y sofistica
 
 | Token | Valor | Uso Principal |
 | :---- | :---- | :------------ |
-| `glass-light` | `bg-white/10 backdrop-blur-md border-white/20` | Botones secundarios, overlays sutiles. |
-| `glass-dark` | `bg-black/30 backdrop-blur-md border-white/10` | Botones sobre imágenes, acciones flotantes. |
-| `glass-surface` | `bg-raios-secondary/80 backdrop-blur-xl border-raios-text-support/10` | Navbar, modales, paneles flotantes. |
-| `glass-content` | `bg-[rgba(12,4,28,0.95)] backdrop-blur-xl border-raios-primary/15` | **Secciones de contenido crítico** (ArtworkInfo, Settings, Comments). |
+| `glass_light` | `bg-white/10 backdrop-blur-md border-white/20` | Botones secundarios, overlays sutiles. |
+| `glass_dark` | `bg-black/30 backdrop-blur-md border-white/10` | Botones sobre imágenes, acciones flotantes. |
+| `glass_surface` | `bg-raios-secondary/75 backdrop-blur-sm border-raios-text-support/10` | Navbar, footer, paneles flotantes. |
+| `glass_content` | `bg-[rgba(10,2,24,0.60)] backdrop-blur-sm border-raios-primary/15` | **Secciones de contenido crítico** (ArtworkInfo, Settings, Comments). |
 
-> **NUEVO - glass-content:** Esta variante fue añadida para resolver el problema de legibilidad cuando el contenido compite visualmente con el background animado. Usa un fondo casi sólido (95% opacidad) con un tinte violeta muy sutil y borde primary visible.
+> **Nota sobre opacidades:** Se usa 75% para `glass_surface` (navbar/footer) y 60% para `glass_content`. El `backdrop-blur-sm` se prefiere sobre `xl` porque blur excesivo no produce el efecto glass deseado con nuestro background animado.
 
-#### Tokens de Sombras
+#### Sombras de Elevación
+
+Para crear profundidad y "flotación" de elementos.
 
 | Token | Valor | Uso Principal |
 | :---- | :---- | :------------ |
-| `shadow-float` | `0 8px 32px rgba(0, 0, 0, 0.4)` | Cards en carrusel, elementos que "flotan". |
-| `shadow-subtle` | `0 4px 16px rgba(0, 0, 0, 0.2)` | Elevación sutil, dropdowns. |
+| `shadow_float` | `0 8px 32px rgba(0, 0, 0, 0.4)` | Cards en carrusel, elementos que "flotan". |
+| `shadow_subtle` | `0 4px 16px rgba(0, 0, 0, 0.2)` | Elevación sutil, dropdowns. |
 
-#### Jerarquía de Shadow-Glow
+#### Glows de Jerarquía Visual
 
-Sistema de 3 niveles para establecer jerarquía visual mediante glow violeta.
+Para guiar atención según el framework "Next Best Action". Sistema de 3 niveles para establecer jerarquía visual mediante glow violeta.
 
 | Token | Valor | Intensidad | Uso Principal |
 | :---- | :---- | :--------- | :------------ |
@@ -297,18 +401,18 @@ El glow es un recurso de **UI**, no de contenido. Algunos elementos no necesitan
 | Contexto | Estilo | Ejemplo |
 | :------- | :----- | :------ |
 | Fondos principales | Sólido (`raios-secondary`) | Body, secciones. |
-| Elementos flotantes | `glass-surface` + shadow | Navbar, modales, tooltips, CartPanel. |
-| **Contenido sobre background** | **`glass-content`** | **ArtworkInfo, Settings sections, Comments.** |
-| Botones sobre imágenes | `glass-dark` | Favorito/carrito en cards. |
+| Elementos flotantes | `glass_surface` + shadow | Navbar, modales, tooltips, CartPanel. |
+| **Contenido sobre background** | **`glass_content`** | **ArtworkInfo, Settings sections, Comments.** |
+| Botones sobre imágenes | `glass_dark` | Favorito/carrito en cards. |
 | CTAs primarios | Sólido (`raios-primary`) | Deben destacar sobre el glass. |
-| Cards en spotlight | `shadow-float` | Carrusel, elementos destacados. |
+| Cards en spotlight | `shadow_float` | Carrusel, elementos destacados. |
 | Panel de compra | `glow_high` | ArtworkInfo, checkout. |
 | Secciones secundarias | `glow` | Comentarios, formularios. |
 | Contenido terciario | `glow_subtle` | Relacionados, metadatos. |
 
 > **Principio:** El glassmorphism crea capas y profundidad. Usarlo en elementos de UI, no en el contenido artístico.
 
-> **IMPORTANTE - Regla de legibilidad:** Cuando el contenido necesita ser claramente legible sobre el background animado (formularios, información de producto, comentarios), usar `glass-content` en lugar de `glass-surface`. El background ligeramente más sólido garantiza la legibilidad sin sacrificar completamente la sensación de capas.
+> **IMPORTANTE - Regla de legibilidad:** Cuando el contenido necesita ser claramente legible sobre el background animado (formularios, información de producto, comentarios), usar `glass_content` en lugar de `glass_surface`. El background ligeramente más sólido garantiza la legibilidad sin sacrificar completamente la sensación de capas.
 
 ---
 
@@ -430,9 +534,9 @@ RAIOS utiliza un sistema de capas que crea profundidad y sofisticación. El back
 | :--- | :------ | :-------- | :----- |
 | **Capa 0** | z-0 | Background animado (orbes, gradientes, partículas) | Fijo, siempre visible, define identidad visual |
 | **Capa 1** | z-10 | Contenido scrolleable (landing, masonry, listas) | Puede ser semi-transparente en partes |
-| **Capa 2** | z-30 | Navbar, tabs de navegación | `glass-surface` con backdrop-blur |
-| **Capa 3** | z-40 | Vistas de detalle, carrito, sheets | `glass-surface` como popover/modal |
-| **Capa 4** | z-50 | Alertas, confirmaciones, toasts | `glass-surface` o sólido según urgencia |
+| **Capa 2** | z-30 | Navbar, tabs de navegación | `glass_surface` con backdrop-blur |
+| **Capa 3** | z-40 | Vistas de detalle, carrito, sheets | `glass_surface` como popover/modal |
+| **Capa 4** | z-50 | Alertas, confirmaciones, toasts | `glass_surface` o sólido según urgencia |
 
 #### Background Dinámico (Capa 0)
 
