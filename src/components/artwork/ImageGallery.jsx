@@ -9,13 +9,19 @@ import { raios_transitions } from '../../utils/animations';
  * Mobile: Imagen principal + indicadores de puntos
  * Desktop: Imagen principal + thumbnails laterales/inferiores
  *
+ * Jerarquía visual: La imagen usa accent line sutil (no glow) porque
+ * el arte es visualmente dominante por naturaleza. El glow se reserva
+ * para elementos UI que guían hacia acciones.
+ *
  * @param {Object} props
  * @param {Array} props.images - Array de URLs de imágenes
  * @param {string} props.title - Título de la obra (para alt)
+ * @param {boolean} props.show_accent - Mostrar accent line inferior (default: true)
  */
 export function ImageGallery({
   images = [],
   title = 'Obra de arte',
+  show_accent = true,
 }) {
   const [current_index, set_current_index] = useState(0);
 
@@ -36,12 +42,18 @@ export function ImageGallery({
     set_current_index(index);
   };
 
+  // Clases para accent line - conecta visualmente con el sistema de diseño sin competir con el panel de acción
+  const accent_classes = show_accent
+    ? 'border-b-2 border-b-raios-primary/30'
+    : '';
+
   return (
     <div className="relative">
       {/* Imagen principal - object-contain para mostrar imagen completa sin recorte */}
       {/* Altura limitada: 50vh mobile, 55vh tablet, 60vh desktop - evita desborde en imágenes verticales */}
       {/* bg-raios-secondary para coherencia cromática con el resto de la app */}
-      <div className="relative h-[50vh] md:h-[55vh] lg:h-[60vh] max-h-[600px] bg-raios-secondary rounded-none overflow-hidden flex items-center justify-center">
+      {/* Accent line sutil: la imagen atrae atención naturalmente, el accent la integra al sistema visual */}
+      <div className={`relative h-[50vh] md:h-[55vh] lg:h-[60vh] max-h-[600px] bg-raios-secondary rounded-lg overflow-hidden flex items-center justify-center ${accent_classes}`}>
         <AnimatePresence mode="wait">
           <motion.img
             key={current_index}

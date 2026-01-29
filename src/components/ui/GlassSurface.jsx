@@ -14,9 +14,14 @@ import { motion } from 'framer-motion';
  * NOTA: Usar 'content' en vistas críticas (ArtworkDetail, Settings, etc.)
  * donde el contenido compite visualmente con el background.
  *
+ * Jerarquía de shadow-glow:
+ * - glow_high: Máxima atención (1 por vista máximo) - CTAs principales
+ * - glow: Importancia media - Secciones secundarias
+ * - glow_subtle: Acento suave - Elementos terciarios
+ *
  * @param {Object} props
  * @param {'light' | 'dark' | 'surface' | 'content'} props.variant - Variante de glassmorphism
- * @param {'none' | 'subtle' | 'float' | 'glow'} props.shadow - Tipo de sombra
+ * @param {'none' | 'subtle' | 'float' | 'glow' | 'glow_high' | 'glow_subtle'} props.shadow - Tipo de sombra
  * @param {boolean} props.has_border - Mostrar borde sutil
  * @param {string} props.class_name - Clases adicionales
  * @param {React.ReactNode} props.children - Contenido
@@ -54,7 +59,9 @@ const GlassSurface = forwardRef(function GlassSurface(
     none: '',
     subtle: 'shadow-[0_4px_16px_rgba(0,0,0,0.2)]',
     float: 'shadow-[0_8px_32px_rgba(0,0,0,0.4)]',
+    glow_high: 'shadow-[0_0_30px_rgba(74,31,255,0.5)]',
     glow: 'shadow-[0_0_20px_rgba(74,31,255,0.3)]',
+    glow_subtle: 'shadow-[0_0_12px_rgba(74,31,255,0.15)]',
   };
 
   const classes = `

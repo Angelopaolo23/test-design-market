@@ -161,9 +161,136 @@ El glassmorphism complementa el neo-brutalismo agregando profundidad y sofistica
 
 | Token | Valor | Uso Principal |
 | :---- | :---- | :------------ |
-| `shadow-glow` | `0 0 20px rgba(74, 31, 255, 0.3)` | Elementos destacados, hover en CTAs primarios. |
 | `shadow-float` | `0 8px 32px rgba(0, 0, 0, 0.4)` | Cards en carrusel, elementos que "flotan". |
 | `shadow-subtle` | `0 4px 16px rgba(0, 0, 0, 0.2)` | Elevación sutil, dropdowns. |
+
+#### Jerarquía de Shadow-Glow
+
+Sistema de 3 niveles para establecer jerarquía visual mediante glow violeta.
+
+| Token | Valor | Intensidad | Uso Principal |
+| :---- | :---- | :--------- | :------------ |
+| `glow_high` | `0 0 30px rgba(74, 31, 255, 0.5)` | Máxima | CTA principal, panel de compra. **Máximo 1 por vista.** |
+| `glow` | `0 0 20px rgba(74, 31, 255, 0.3)` | Media | Secciones secundarias (comentarios, formularios). |
+| `glow_subtle` | `0 0 12px rgba(74, 31, 255, 0.15)` | Suave | Elementos terciarios (obras relacionadas, metadatos). |
+
+**Reglas de uso:**
+1. **Máximo 1 elemento con `glow_high` por vista** - Reservar para el CTA principal
+2. **`glow` puede repetirse moderadamente** - Para secciones de importancia media
+3. **`glow_subtle` para acentos secundarios** - Elementos que complementan, no compiten
+
+---
+
+#### Framework de Jerarquía Visual por Vista
+
+La asignación de glow depende del **principio rector** de cada vista. Cada página tiene un "North Star" que define qué elemento recibe máxima atención.
+
+##### Principio: "Next Best Action"
+
+> La jerarquía responde: **¿Cuál es la siguiente acción más valiosa que queremos que el usuario tome?**
+
+##### Matriz de Decisión por Vista
+
+| Vista | Principio Rector | glow_high | glow | glow_subtle |
+|:------|:-----------------|:----------|:-----|:------------|
+| **ArtworkDetail** | Monetización directa | Panel de compra | Obras relacionadas (cross-sell) | Comentarios (social proof) |
+| **Categories/Artists** | Descubrimiento → Monetización | Obras destacadas | Filtros/navegación | Metadatos |
+| **Settings** | Captura de preferencias | Sección activa del formulario | Otras secciones | Información contextual |
+| **Proposals** | Participación comunitaria | Crear nueva proposal | Proposals existentes | Instrucciones/guías |
+| **News** | Consumo de contenido | Artículo principal/destacado | Artículos secundarios | Navegación/tags |
+| **Landing** | Engagement inicial | Hero CTA | Categorías/Obras destacadas | Footer/info |
+
+##### Lógica de Asignación
+
+1. **Identificar el North Star de la vista** - ¿Cuál es el objetivo principal?
+2. **Mapear acciones a valor** - ¿Qué acción acerca más al usuario al objetivo?
+3. **Asignar jerarquía descendente** - Mayor glow = mayor valor para el objetivo
+
+##### Ejemplo: ArtworkDetail
+
+```
+Objetivo: Monetización directa (venta de la obra)
+
+┌─────────────────────────────────────────────────┐
+│  ArtworkInfo (glow_high)                        │
+│  → Acción: Comprar                              │
+│  → Valor: Transacción directa                   │
+├─────────────────────────────────────────────────┤
+│  RelatedWorks (glow)                            │
+│  → Acción: Explorar más obras                   │
+│  → Valor: Cross-sell, retiene en flujo de compra│
+├─────────────────────────────────────────────────┤
+│  Comments (glow_subtle)                         │
+│  → Acción: Leer/escribir opiniones              │
+│  → Valor: Social proof (refuerza, no convierte) │
+└─────────────────────────────────────────────────┘
+```
+
+```jsx
+// Panel de compra - acción primaria
+<GlassSurface variant="content" shadow="glow_high">
+  <ArtworkInfo />
+</GlassSurface>
+
+// Obras relacionadas - retención en flujo de compra
+<GlassSurface variant="content" shadow="glow">
+  <RelatedWorks />
+</GlassSurface>
+
+// Comentarios - refuerzo de decisión
+<GlassSurface variant="content" shadow="glow_subtle">
+  <CommentsSection />
+</GlassSurface>
+```
+
+##### Ejemplo: Proposals
+
+```
+Objetivo: Participación comunitaria (feedback, reportes, ideas)
+
+┌─────────────────────────────────────────────────┐
+│  CreateProposal (glow_high)                     │
+│  → Acción: Crear nueva proposal                 │
+│  → Valor: Genera contenido, engagement activo   │
+├─────────────────────────────────────────────────┤
+│  ProposalsList (glow)                           │
+│  → Acción: Leer/votar proposals existentes      │
+│  → Valor: Engagement pasivo, validación social  │
+├─────────────────────────────────────────────────┤
+│  Guidelines (glow_subtle)                       │
+│  → Acción: Consultar reglas                     │
+│  → Valor: Soporte, no es acción principal       │
+└─────────────────────────────────────────────────┘
+```
+
+> **Principio clave:** El glow guía al usuario hacia la acción que más valor genera para el objetivo de la vista. No es decorativo, es funcional.
+
+##### Contenido vs UI: Cuándo NO usar glow
+
+El glow es un recurso de **UI**, no de contenido. Algunos elementos no necesitan glow porque ya son visualmente dominantes por naturaleza:
+
+| Elemento | Recurso visual | Razón |
+|:---------|:---------------|:------|
+| Imagen de obra | Accent line (`border-b-raios-primary/30`) | El arte atrae atención naturalmente, no necesita competir |
+| Avatares grandes | Ninguno o borde sutil | Ya son punto focal visual |
+| Hero images | Ninguno | Dominan por tamaño y color |
+
+**Flujo visual en ArtworkDetail:**
+```
+┌──────────────────────┐
+│                      │
+│       IMAGEN         │  ← Atención natural (el arte)
+│                      │
+├──────────────────────┤  ← accent line (integra al sistema)
+└──────────────────────┘
+
+┌──────────────────────┐
+│   Panel de compra    │  ← glow_high (guía hacia acción)
+│   [Comprar]          │
+└──────────────────────┘
+```
+
+> **Regla:** La imagen atrae, el glow guía. No uses glow para contenido que ya es visualmente dominante.
 
 #### Cuándo usar cada uno
 
@@ -175,6 +302,9 @@ El glassmorphism complementa el neo-brutalismo agregando profundidad y sofistica
 | Botones sobre imágenes | `glass-dark` | Favorito/carrito en cards. |
 | CTAs primarios | Sólido (`raios-primary`) | Deben destacar sobre el glass. |
 | Cards en spotlight | `shadow-float` | Carrusel, elementos destacados. |
+| Panel de compra | `glow_high` | ArtworkInfo, checkout. |
+| Secciones secundarias | `glow` | Comentarios, formularios. |
+| Contenido terciario | `glow_subtle` | Relacionados, metadatos. |
 
 > **Principio:** El glassmorphism crea capas y profundidad. Usarlo en elementos de UI, no en el contenido artístico.
 

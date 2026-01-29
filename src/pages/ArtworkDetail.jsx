@@ -216,11 +216,11 @@ export function ArtworkDetail() {
               />
             </div>
 
-            {/* Info de la obra */}
+            {/* Info de la obra - CTA principal, máxima jerarquía */}
             <div>
               <GlassSurface
                 variant="content"
-                shadow="glow"
+                shadow="glow_high"
                 class_name="p-5 md:p-6 lg:p-8 rounded-xl"
               >
                 <ArtworkInfo
@@ -237,34 +237,46 @@ export function ArtworkDetail() {
           {/* Separador */}
           <div className="border-t border-raios-text-support/10 my-8" />
 
-          {/* Comentarios */}
+          {/* Obras relacionadas - Cross-sell, retiene en flujo de compra */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...raios_transitions.standard, delay: 0.2 }}
           >
-            <CommentsSection
-              comments={comments}
-              on_submit={handle_comment_submit}
-              on_like={handle_comment_like}
-              can_comment={true}
-            />
+            <GlassSurface
+              variant="content"
+              shadow="glow"
+              class_name="p-5 md:p-6 lg:p-8 rounded-xl"
+            >
+              <RelatedWorks
+                works={related_works}
+                title="Más obras de Elena Vega"
+                see_more_link={`/artist/${artwork.artist_username}`}
+              />
+            </GlassSurface>
           </motion.div>
 
           {/* Separador */}
           <div className="border-t border-raios-text-support/10 my-8" />
 
-          {/* Obras relacionadas */}
+          {/* Comentarios - Social proof, refuerzo de decisión */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...raios_transitions.standard, delay: 0.3 }}
           >
-            <RelatedWorks
-              works={related_works}
-              title="Más obras de Elena Vega"
-              see_more_link={`/artist/${artwork.artist_username}`}
-            />
+            <GlassSurface
+              variant="content"
+              shadow="glow_subtle"
+              class_name="p-5 md:p-6 lg:p-8 rounded-xl"
+            >
+              <CommentsSection
+                comments={comments}
+                on_submit={handle_comment_submit}
+                on_like={handle_comment_like}
+                can_comment={true}
+              />
+            </GlassSurface>
           </motion.div>
         </div>
       </main>
