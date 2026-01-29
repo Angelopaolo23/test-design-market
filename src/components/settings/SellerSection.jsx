@@ -11,6 +11,12 @@ import { Button } from '../ui/Button';
  * SellerSection - Sección de configuración de vendedor en Settings
  *
  * Configuración de pagos, envíos y preferencias de venta
+ *
+ * Jerarquía:
+ * - Stats cards: glow_subtle (información de referencia)
+ * - Store info: glow_high (datos críticos para monetización)
+ * - Sale preferences: glow (configuración importante)
+ * - Shipping: glow_subtle (configuración secundaria)
  */
 export function SellerSection({ on_save }) {
   const [is_saving, set_is_saving] = useState(false);
@@ -59,11 +65,11 @@ export function SellerSection({ on_save }) {
 
   return (
     <div className="space-y-6">
-      {/* Stats rápidas */}
+      {/* Stats rápidas - glow_subtle (información de referencia) */}
       <div className="grid grid-cols-3 gap-3 md:gap-4">
         <GlassSurface
           variant="content"
-          shadow="subtle"
+          shadow="glow_subtle"
           class_name="p-4 rounded-xl text-center"
         >
           <FiDollarSign className="mx-auto text-green-500 mb-2" size={24} />
@@ -73,7 +79,7 @@ export function SellerSection({ on_save }) {
 
         <GlassSurface
           variant="content"
-          shadow="subtle"
+          shadow="glow_subtle"
           class_name="p-4 rounded-xl text-center"
         >
           <FiDollarSign className="mx-auto text-raios-primary mb-2" size={24} />
@@ -83,7 +89,7 @@ export function SellerSection({ on_save }) {
 
         <GlassSurface
           variant="content"
-          shadow="subtle"
+          shadow="glow_subtle"
           class_name="p-4 rounded-xl text-center"
         >
           <FiPackage className="mx-auto text-raios-tertiary mb-2" size={24} />
@@ -92,10 +98,10 @@ export function SellerSection({ on_save }) {
         </GlassSurface>
       </div>
 
-      {/* Información de la tienda */}
+      {/* Información de la tienda - glow_high (datos críticos para monetización) */}
       <GlassSurface
         variant="content"
-        shadow="subtle"
+        shadow="glow_high"
         class_name="p-5 md:p-6 rounded-xl"
       >
         <h3 className="font-mono text-lg text-raios-text-high mb-6">
@@ -140,10 +146,10 @@ export function SellerSection({ on_save }) {
         </div>
       </GlassSurface>
 
-      {/* Preferencias de venta */}
+      {/* Preferencias de venta - glow (configuración importante) */}
       <GlassSurface
         variant="content"
-        shadow="subtle"
+        shadow="glow"
         class_name="p-5 md:p-6 rounded-xl"
       >
         <h3 className="font-mono text-lg text-raios-text-high mb-6">
@@ -172,10 +178,10 @@ export function SellerSection({ on_save }) {
         </div>
       </GlassSurface>
 
-      {/* Envíos */}
+      {/* Envíos - glow_subtle (configuración secundaria) */}
       <GlassSurface
         variant="content"
-        shadow="subtle"
+        shadow="glow_subtle"
         class_name="p-5 md:p-6 rounded-xl"
       >
         <div className="flex items-center gap-2 mb-6">

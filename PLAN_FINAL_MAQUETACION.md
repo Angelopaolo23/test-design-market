@@ -53,7 +53,11 @@ PROGRESO TOTAL: [▓▓▓▓▓▓▓▓▓▓] 5/5 tareas completadas ✅ FASE
 - [x] `GlassPanel` - Panel lateral deslizante
 - [x] `GlassSheet` - Bottom sheet mobile
 - [x] **Variante `content`** - 60% opacidad + backdrop-blur-sm para secciones de contenido
-- [x] **Shadow-glow** - Implementado en ArtworkInfo (pendiente jerarquía de 3 niveles)
+- [x] **Shadow-glow Hierarchy** - Sistema de 3 niveles implementado:
+  - `glow_high`: Máxima atención (1 por vista) - CTAs principales
+  - `glow`: Importancia media - Secciones secundarias
+  - `glow_subtle`: Acento suave - Elementos terciarios
+- [x] **Accent line** - Para imágenes de arte (no compite con UI)
 - [x] **Navbar** - 75% opacidad con blur
 - [x] **Footer** - 75% opacidad con blur (coherencia con navbar)
 
@@ -597,6 +601,56 @@ npm run lint     # Verificar código
 | 2026-01-28 | TAREA 4: Settings Page completada | Claude |
 | 2026-01-28 | TAREA 5: Documentación Final completada | Claude |
 | 2026-01-28 | **FASE DE MAQUETACIÓN COMPLETADA** | Claude + Usuario |
+| 2026-01-28 | Implementación sistema shadow-glow hierarchy (3 niveles) | Claude |
+| 2026-01-28 | Aplicación jerarquía glow en ArtworkDetail y Settings | Claude |
+| 2026-01-28 | Documentación framework "Next Best Action" en Design System | Claude |
+
+---
+
+## Sistema de Jerarquía Visual (Shadow-Glow)
+
+### Framework "Next Best Action"
+
+La jerarquía de glow responde: **¿Cuál es la siguiente acción más valiosa para el objetivo de la vista?**
+
+### Niveles Disponibles
+
+| Nivel | Valor CSS | Uso |
+|-------|-----------|-----|
+| `glow_high` | `0 0 30px rgba(74,31,255,0.5)` | CTA principal, máximo 1 por vista |
+| `glow` | `0 0 20px rgba(74,31,255,0.3)` | Secciones de importancia media |
+| `glow_subtle` | `0 0 12px rgba(74,31,255,0.15)` | Elementos terciarios |
+
+### Aplicación por Vista
+
+#### ArtworkDetail
+- `glow_high`: Panel de compra (ArtworkInfo)
+- `glow`: Obras relacionadas (cross-sell)
+- `glow_subtle`: Comentarios (social proof)
+- **Accent line**: Imagen de la obra (no glow, ya es visualmente dominante)
+
+#### Settings (Tab Cuenta)
+- `glow_high`: ProfileSection (datos personales)
+- `glow`: NotificationsSection (configuración importante)
+- `glow_subtle`: AppearanceSection (preferencias visuales)
+- **Sin glow**: DangerZoneSection (borde rojo especial)
+
+#### Settings (Tab Vendedor)
+- `glow_high`: Información de tienda (monetización)
+- `glow`: Preferencias de venta
+- `glow_subtle`: Stats cards, Envíos
+
+#### Settings (Tab Direcciones)
+- `glow`: Cada tarjeta de dirección (datos de envío)
+
+### Regla para Contenido vs UI
+
+El glow es para **elementos de UI**, no para contenido visualmente dominante:
+- Imágenes de arte → Accent line (borde sutil)
+- Avatares grandes → Ninguno o borde sutil
+- Hero images → Ninguno
+
+> **Principio:** "La imagen atrae, el glow guía"
 
 ---
 

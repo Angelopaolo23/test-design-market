@@ -11,6 +11,9 @@ import { Button } from '../ui/Button';
  * ProfileSection - Sección de perfil en Settings
  *
  * Incluye: avatar, nombre, username, email, bio
+ *
+ * Jerarquía: glow_high - Es la sección principal donde el usuario
+ * edita sus datos personales (acción primaria de Settings)
  */
 export function ProfileSection({ on_save }) {
   // Estado mock del formulario
@@ -41,7 +44,7 @@ export function ProfileSection({ on_save }) {
   return (
     <GlassSurface
       variant="content"
-      shadow="subtle"
+      shadow="glow_high"
       class_name="p-5 md:p-6 rounded-xl"
     >
       {/* Header */}

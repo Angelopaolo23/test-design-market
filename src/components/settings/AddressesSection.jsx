@@ -9,6 +9,8 @@ import { EmptyState } from '../ui/EmptyState';
  * AddressesSection - Sección de direcciones en Settings
  *
  * Lista de direcciones guardadas con acciones de editar/eliminar
+ *
+ * Jerarquía: glow - Datos importantes para completar compras/envíos
  */
 export function AddressesSection({ on_add, on_edit, on_delete }) {
   // Datos mock de direcciones
@@ -65,7 +67,7 @@ export function AddressesSection({ on_add, on_edit, on_delete }) {
       {addresses.length === 0 ? (
         <GlassSurface
           variant="content"
-          shadow="subtle"
+          shadow="glow"
           class_name="rounded-xl"
         >
           <EmptyState
@@ -85,7 +87,7 @@ export function AddressesSection({ on_add, on_edit, on_delete }) {
             <GlassSurface
               key={address.id}
               variant="content"
-              shadow="subtle"
+              shadow="glow"
               class_name="p-5 rounded-xl"
             >
               <div className="flex items-start justify-between gap-4">

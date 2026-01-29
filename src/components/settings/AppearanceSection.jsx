@@ -7,6 +7,8 @@ import { GlassSurface } from '../ui/GlassSurface';
  * AppearanceSection - Sección de apariencia en Settings
  *
  * Selector de fondo animado
+ *
+ * Jerarquía: glow_subtle - Preferencias terciarias, personalización visual
  */
 export function AppearanceSection({ on_change }) {
   const [selected_background, set_selected_background] = useState('wave_grid');
@@ -42,7 +44,7 @@ export function AppearanceSection({ on_change }) {
   return (
     <GlassSurface
       variant="content"
-      shadow="subtle"
+      shadow="glow_subtle"
       class_name="p-5 md:p-6 rounded-xl"
     >
       {/* Header */}

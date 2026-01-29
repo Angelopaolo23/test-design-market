@@ -6,6 +6,8 @@ import { Toggle } from '../ui/Toggle';
  * NotificationsSection - Sección de notificaciones en Settings
  *
  * Toggles para diferentes tipos de notificaciones
+ *
+ * Jerarquía: glow - Configuración importante pero secundaria al perfil
  */
 export function NotificationsSection({ on_change }) {
   const [notifications, set_notifications] = useState({
@@ -28,7 +30,7 @@ export function NotificationsSection({ on_change }) {
   return (
     <GlassSurface
       variant="content"
-      shadow="subtle"
+      shadow="glow"
       class_name="p-5 md:p-6 rounded-xl"
     >
       {/* Header */}
