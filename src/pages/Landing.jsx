@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../components/layout/Navbar';
 import { Footer } from '../components/layout/Footer';
 import { Hero } from '../components/sections/Hero';
@@ -134,11 +135,12 @@ const carousel_artworks = [
  * El background dinámico también está en AppLayout.
  */
 export function Landing() {
+  const navigate = useNavigate();
   const { add_to_cart } = useApp();
 
   const handle_artwork_click = (artwork_id) => {
-    console.log('Artwork clicked:', artwork_id);
-    // En producción: navigate(`/artwork/${artwork_id}`)
+    // Navega a la vista de detalle (mock: siempre /artwork/1)
+    navigate('/artwork/1');
   };
 
   const handle_category_change = (category) => {

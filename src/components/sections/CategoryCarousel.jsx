@@ -377,7 +377,7 @@ export function CategoryCarousel({
             ${current_artwork.price?.toLocaleString()}
           </p>
 
-          {/* CTAs - Glassmorphism en favoritos, sólido en carrito */}
+          {/* CTAs - Estilo consistente con ArtworkInfo */}
           <div className="flex items-center justify-center gap-3 mt-4">
             <motion.button
               whileHover={{ scale: 1.02 }}
@@ -385,11 +385,11 @@ export function CategoryCarousel({
               onClick={(e) => handle_favorite(e, current_artwork.artwork_id)}
               className={`
                 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-sans font-medium
-                transition-all duration-300 backdrop-blur-md border
+                transition-all duration-300 border
                 ${
                   is_current_favorite
-                    ? 'bg-raios-primary/30 border-raios-primary text-raios-primary'
-                    : 'bg-white/10 border-white/20 text-raios-text-high hover:bg-white/20 hover:border-raios-primary hover:text-raios-primary'
+                    ? 'bg-raios-primary/20 border-raios-primary text-raios-primary'
+                    : 'border-raios-text-support/20 text-raios-text-support hover:border-raios-primary hover:text-raios-primary'
                 }
               `}
             >

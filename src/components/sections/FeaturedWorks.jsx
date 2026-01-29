@@ -1,7 +1,9 @@
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiArrowRight } from 'react-icons/fi';
 import { ArtworkCard } from '../ui/ArtworkCard';
 import { Button } from '../ui/Button';
+import { useApp } from '../../context';
 
 // Datos mock con diferentes aspect ratios para masonry
 // Usando imágenes de Unsplash con dimensiones variadas
@@ -124,16 +126,31 @@ const mock_artworks = [
  * - max-w-[1600px] centrado en 2xl+ (evita imágenes gigantes en ultrawide)
  */
 export function FeaturedWorks() {
+  const navigate = useNavigate();
+  const { add_to_cart } = useApp();
+
   const handle_favorite = (artwork_id) => {
     console.log('Toggle favorite:', artwork_id);
   };
 
   const handle_add_to_cart = (artwork_id) => {
-    console.log('Add to cart:', artwork_id);
+    // Buscar la obra y agregarla al carrito global
+    const artwork = mock_artworks.find((a) => a.id === artwork_id);
+    if (artwork) {
+      add_to_cart({
+        id: artwork.id,
+        title: artwork.title,
+        artist_name: artwork.artist_name,
+        price: artwork.price,
+        image_url: artwork.image_url,
+        quantity: 1,
+      });
+    }
   };
 
   const handle_click = (artwork_id) => {
-    console.log('View artwork:', artwork_id);
+    // Navega a la vista de detalle (mock: siempre /artwork/1)
+    navigate('/artwork/1');
   };
 
   return (
