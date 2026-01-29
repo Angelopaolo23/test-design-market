@@ -1,82 +1,96 @@
-# RAIOS - Marketplace de Arte
+# RAIOS - Design Market
 
-Maqueteo visual para un marketplace de arte digital. Este proyecto implementa el design system RAIOS con un enfoque neo-brutalista y estética dark mode.
+Maqueta visual completa para un marketplace de arte digital. Implementa el design system RAIOS con estética neo-brutalista dark mode.
 
-## Propósito
+## Estado: COMPLETADO
 
-Este repositorio es un **maqueteo visual** (sin lógica de negocio) que será integrado posteriormente a un proyecto React existente. El objetivo es definir y validar:
+Este proyecto cumplió su objetivo como **maqueta visual de referencia** para el frontend real de RAIOS.
 
-- Design system completo (colores, tipografía, spacing, iconografía)
-- Componentes UI reutilizables
-- Layout de landing page con grid masonry
-- Experiencia mobile-first
+## Qué incluye
 
-## Stack Tecnológico
+### Páginas
+- **Landing** - Hero, categorías, obras destacadas, navegación completa
+- **Artwork Detail** - Galería de imágenes, info de compra, comentarios, obras relacionadas
+- **Settings** - Perfil, notificaciones, apariencia, zona de peligro
+- **Component Demo** (`/demo`) - Referencia visual de componentes
 
-| Tecnología | Versión | Uso |
-|------------|---------|-----|
-| React | 18.3.1 | Framework UI (JavaScript) |
-| Vite | 5.4.2 | Build tool |
-| Tailwind CSS | 3.4.1 | Estilos utility-first |
-| Framer Motion | 11.0.8 | Animaciones |
-| React Icons | 5.0.1 | Iconografía (Feather) |
+### Sistema de Componentes
 
-## Estructura del Proyecto
+| Categoría | Componentes |
+|-----------|-------------|
+| **UI Base** | Button, Input, FormField, Textarea, Toggle, EmptyState |
+| **Cards** | ArtworkCard, MasonryGrid |
+| **Glass** | GlassSurface, GlassModal, GlassPanel, GlassSheet |
+| **Panels** | MenuPanel, CartPanel, SearchOverlay |
+| **Toast** | Toast, ToastContainer, ToastProvider |
+| **Layout** | Navbar, Footer, AppLayout |
+| **Backgrounds** | WaveGrid, MagneticField, ParticleGrid |
 
-```
-src/
-├── components/
-│   ├── ui/              # Building blocks (Button, ArtworkCard)
-│   ├── layout/          # Navbar, Footer, Container
-│   └── sections/        # Hero, FeaturedWorks
-├── pages/
-│   └── Landing.jsx      # Página principal
-├── styles/
-│   └── tokens.css       # Variables CSS del design system
-└── index.css            # Tailwind + clases de componentes
-```
+### Design System
 
-## Design System RAIOS
+Todos los tokens están centralizados en `tailwind.config.js`:
+- Colores semánticos (raios-primary, secondary, tertiary, text-high, text-support)
+- Sistema de espaciado 6px
+- Tipografía (Space Mono + Montserrat)
+- Sombras y glows de jerarquía visual
+- Glassmorphism tokens
 
-### Colores
+## Stack
 
-| Token | Hex | Uso |
-|-------|-----|-----|
-| `raios-primary` | #4A1FFF | CTAs, acentos |
-| `raios-secondary` | #0A0218 | Fondo principal |
-| `raios-tertiary` | #8E5CFF | Efectos, gradientes |
-| `raios-text-high` | #FFFFFF | Texto principal |
-| `raios-text-support` | #A8A8B3 | Texto secundario |
-
-### Tipografía
-
-- **Space Mono** (`font-mono`): Headers, títulos, precios
-- **Montserrat** (`font-sans`): Body, descripciones
-
-### Principios
-
-- **Mobile-First**: Todo se diseña primero para mobile
-- **Sistema de 6px**: Spacing basado en múltiplos de 6px
-- **Neo-Brutalismo**: Sin bordes ni sombras en cards, obras como protagonistas
+| Tecnología | Uso |
+|------------|-----|
+| React 18 | Framework UI |
+| Vite | Build tool |
+| Tailwind CSS | Estilos utility-first |
+| Framer Motion | Animaciones |
+| React Icons | Iconografía (Feather) |
+| React Router | Navegación |
 
 ## Comandos
 
 ```bash
-# Instalar dependencias
-npm install
+npm install     # Instalar dependencias
+npm run dev     # Desarrollo (localhost:5173)
+npm run build   # Build producción
+npm run preview # Preview del build
+```
 
-# Desarrollo con hot reload
-npm run dev
+## Estructura
 
-# Build de producción
-npm run build
-
-# Preview del build
-npm run preview
+```
+src/
+├── components/
+│   ├── ui/           # Componentes base reutilizables
+│   ├── layout/       # Navbar, Footer, AppLayout
+│   ├── sections/     # Hero, CategoryCarousel, FeaturedWorks
+│   ├── artwork/      # ImageGallery, ArtworkInfo, Comments
+│   ├── settings/     # Secciones de configuración
+│   └── backgrounds/  # Fondos animados
+├── pages/
+│   ├── Landing.jsx
+│   ├── ArtworkDetail.jsx
+│   ├── Settings.jsx
+│   └── ComponentDemo.jsx
+├── context/
+│   └── AppContext.jsx  # Estado global (paneles, carrito, usuario)
+└── utils/
+    └── animations.js   # Variantes de Framer Motion
 ```
 
 ## Documentación
 
-- `RAIOS_Design_System.md` - Tokens y reglas de diseño completas
-- `CLAUDE.md` - Guía para desarrollo con Claude Code
-- `design-system-context/` - Contexto para integración al proyecto principal
+| Archivo | Contenido |
+|---------|-----------|
+| `RAIOS_Design_System.md` | Design system completo (tokens, componentes, patrones) |
+| `CLAUDE.md` | Instrucciones para Claude Code |
+
+## Principios de Diseño
+
+1. **Mobile-First** - Diseño base para mobile, escala a desktop
+2. **Neo-Brutalismo** - Arte como protagonista, UI complementaria
+3. **Glassmorphism con propósito** - Profundidad sin distraer
+4. **Jerarquía visual con glows** - Guiar al usuario hacia la acción principal
+
+---
+
+*Maqueta completada - Enero 2026*
