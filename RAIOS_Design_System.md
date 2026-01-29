@@ -13,7 +13,7 @@ Este documento consolida los lineamientos estéticos (Tokens de Diseño) definid
 | Principio | Descripción |
 | :-------- | :---------- |
 | **Diseño base = Mobile** | Los estilos sin prefijo aplican a dispositivos móviles. |
-| **Escalado progresivo** | Usar breakpoints ascendentes: `base` → `md` (768px) → `lg` (1024px) → `xl` (1280px). |
+| **Escalado progresivo** | Usar breakpoints ascendentes: `base` → `sm` (640px) → `md` (768px) → `lg` (1024px) → `xl` (1280px). |
 | **UX consistente** | Cada elemento debe ofrecer una experiencia óptima en mobile antes de adaptarse a desktop. |
 | **Contenido prioritario** | En mobile, mostrar lo esencial. En desktop, expandir con información adicional si aplica. |
 
@@ -32,6 +32,17 @@ Los colores se definen con nombres semánticos que reflejan su propósito en la 
 | `raios-tertiary`     | Lavanda Brillante        | `#8E5CFF` | Acentos visuales sutiles: Gradientes, Circuitos, Efectos de luz. |
 | `raios-text-high`    | Blanco Puro              | `#FFFFFF` | Tipografía principal y títulos.                                  |
 | `raios-text-support` | Gris Claro               | `#A8A8B3` | Tipografía secundaria, bordes sutiles, iconos, metadatos.        |
+
+#### Colores de Estado (Feedback)
+
+| Token | Hex Code | Uso Principal |
+| :---- | :------- | :------------ |
+| `state-success` | `#22C55E` (green-500) | Confirmaciones, acciones exitosas, validación positiva. |
+| `state-error` | `#EF4444` (red-500) | Errores, validación negativa, acciones destructivas. |
+| `state-warning` | `#F59E0B` (amber-500) | Advertencias, acciones que requieren atención. |
+| `state-info` | `raios-primary` | Información neutral, tips, ayuda contextual. |
+
+> **Nota:** Los colores de estado usan la paleta de Tailwind para consistencia con el ecosistema. Se aplican en bordes, textos e iconos, nunca como fondos sólidos dominantes.
 
 ---
 
@@ -124,8 +135,8 @@ Esta sección define las directrices visuales para los componentes clave de la i
 > **Cuándo usar cada variante:**
 > | Variante | Opacidad | Borde | Uso |
 > | :------- | :------- | :---- | :-- |
-> | `surface` | 80% | muy sutil | Navbar, modales, CartPanel, MenuPanel |
-> | `content` | 95% | violeta sutil | ArtworkInfo, Comments, Settings sections |
+> | `surface` | 75% | muy sutil | Navbar, modales, CartPanel, MenuPanel |
+> | `content` | 60% | violeta sutil | ArtworkInfo, Comments, Settings sections |
 
 ---
 
@@ -190,6 +201,133 @@ Combina: Label (`font-mono`, `text-xs`, `uppercase`) + Input + Helper/Error text
 
 #### Textarea
 Mismos estilos que Input, con `min-h-[120px]` y `resize-y`
+
+---
+
+### 🔗 Links y Anclas
+
+#### Estilos Base
+
+| Tipo | Estilo | Uso |
+| :--- | :----- | :-- |
+| **Link inline** | `text-raios-primary` + hover: `text-raios-tertiary` + `underline` | Links dentro de párrafos, textos legales. |
+| **Link navegación** | `text-raios-text-high` + hover: `text-raios-primary` | Menús, navbars, breadcrumbs. |
+| **Link sutil** | `text-raios-text-support` + hover: `text-raios-text-high` | Metadatos, footers, info secundaria. |
+
+#### Estados
+
+| Estado | Estilo |
+| :----- | :----- |
+| Default | Color base según tipo |
+| Hover | Cambio de color + `transition-colors duration-150` |
+| Focus | `outline-none ring-2 ring-raios-primary/50 ring-offset-2 ring-offset-raios-secondary` |
+| Active | `opacity-80` |
+| Visited | Mismo que default (no diferenciar para mantener estética limpia) |
+
+#### Accesibilidad
+- Los links deben ser distinguibles del texto normal (color diferente o subrayado)
+- El estado focus debe ser visible para navegación por teclado
+- Usar `ring-offset` para separar el ring del background oscuro
+
+```jsx
+// Link inline (dentro de texto)
+<a className="text-raios-primary hover:text-raios-tertiary underline transition-colors">
+  Ver términos
+</a>
+
+// Link de navegación
+<a className="text-raios-text-high hover:text-raios-primary transition-colors">
+  Explorar
+</a>
+
+// Link sutil (footer, metadata)
+<a className="text-raios-text-support hover:text-raios-text-high transition-colors">
+  @artista
+</a>
+```
+
+---
+
+### ⏳ Estados de Carga (Loading States)
+
+#### Skeleton Base
+
+Placeholder animado que indica contenido cargando.
+
+| Token | Valor | Uso |
+| :---- | :---- | :-- |
+| `skeleton-base` | `bg-raios-text-support/10` | Color base del skeleton |
+| `skeleton-shine` | `bg-gradient-to-r from-transparent via-white/5 to-transparent` | Efecto de brillo |
+| `skeleton-animation` | `animate-pulse` o shimmer custom | Animación de carga |
+
+#### Variantes de Skeleton
+
+| Variante | Forma | Uso |
+| :------- | :---- | :-- |
+| `skeleton-text` | `h-4 rounded` | Líneas de texto |
+| `skeleton-title` | `h-6 rounded w-3/4` | Títulos |
+| `skeleton-avatar` | `rounded-full` | Avatares, iconos circulares |
+| `skeleton-image` | `rounded-lg aspect-[4/3]` | Imágenes de obras |
+| `skeleton-button` | `h-10 rounded-lg w-32` | Botones |
+
+#### Implementación
+
+```jsx
+// Skeleton de texto (múltiples líneas)
+<div className="space-y-2 animate-pulse">
+  <div className="h-4 bg-raios-text-support/10 rounded w-full" />
+  <div className="h-4 bg-raios-text-support/10 rounded w-5/6" />
+  <div className="h-4 bg-raios-text-support/10 rounded w-4/6" />
+</div>
+
+// Skeleton de card de obra
+<div className="animate-pulse">
+  <div className="aspect-[4/3] bg-raios-text-support/10 rounded-lg" />
+  <div className="mt-3 space-y-2">
+    <div className="h-4 bg-raios-text-support/10 rounded w-3/4" />
+    <div className="h-3 bg-raios-text-support/10 rounded w-1/2" />
+  </div>
+</div>
+
+// Skeleton de avatar + nombre
+<div className="flex items-center gap-3 animate-pulse">
+  <div className="w-10 h-10 bg-raios-text-support/10 rounded-full" />
+  <div className="space-y-1">
+    <div className="h-4 bg-raios-text-support/10 rounded w-24" />
+    <div className="h-3 bg-raios-text-support/10 rounded w-16" />
+  </div>
+</div>
+```
+
+#### Spinners
+
+Para acciones puntuales (submit de formulario, carga de botón).
+
+| Variante | Tamaño | Uso |
+| :------- | :----- | :-- |
+| `spinner-sm` | 16px | Dentro de botones pequeños |
+| `spinner-md` | 24px | Botones estándar, inline |
+| `spinner-lg` | 32px | Carga de sección |
+
+```jsx
+// Spinner base
+<svg className="animate-spin h-5 w-5 text-raios-primary" viewBox="0 0 24 24">
+  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+</svg>
+```
+
+#### Reglas de Uso
+
+| Contexto | Tipo de loading | Razón |
+| :------- | :-------------- | :---- |
+| Lista de obras | Skeleton cards | Preserva layout, menos "salto" visual |
+| Botón submit | Spinner inline | Feedback inmediato de acción |
+| Página completa | Skeleton de secciones | UX percibida más rápida |
+| Búsqueda | Spinner + texto | Indica proceso activo |
+| Imagen individual | Skeleton + fade-in | Transición suave cuando carga |
+
+> **Principio:** Usar skeletons cuando conocemos la estructura del contenido. Usar spinners para acciones donde no sabemos cuánto tardará.
 
 ---
 
@@ -555,13 +693,15 @@ RAIOS utiliza un sistema de capas que crea profundidad y sofisticación. El back
 
 #### Descripción de Capas
 
-| Capa | z-index | Contenido | Estilo |
-| :--- | :------ | :-------- | :----- |
-| **Capa 0** | z-0 | Background animado (orbes, gradientes, partículas) | Fijo, siempre visible, define identidad visual |
-| **Capa 1** | z-10 | Contenido scrolleable (landing, masonry, listas) | Puede ser semi-transparente en partes |
-| **Capa 2** | z-30 | Navbar, tabs de navegación | `glass_surface` con backdrop-blur |
-| **Capa 3** | z-40 | Vistas de detalle, carrito, sheets | `glass_surface` como popover/modal |
-| **Capa 4** | z-50 | Alertas, confirmaciones, toasts | `glass_surface` o sólido según urgencia |
+| Capa | z-index | CSS Variable | Contenido | Estilo |
+| :--- | :------ | :----------- | :-------- | :----- |
+| **Capa 0** | z-0 | `--z-background` | Background animado (orbes, gradientes, partículas) | Fijo, siempre visible, define identidad visual |
+| **Capa 1** | z-10 | `--z-content` | Contenido scrolleable (landing, masonry, listas) | Puede ser semi-transparente en partes |
+| **Capa 2** | z-30 | `--z-navigation` | Navbar, tabs de navegación | `glass_surface` con backdrop-blur |
+| **Capa 3** | z-40 | `--z-overlay` | Paneles, carrito, sheets, popovers | `glass_surface` como popover/modal |
+| **Capa 4** | z-50 | `--z-modal` | Modales, alertas, confirmaciones, toasts | `glass_surface` o sólido según urgencia |
+
+> **Nota:** Las variables CSS (`--z-*`) están definidas en `tokens.css` y corresponden directamente a las clases de Tailwind (`z-0`, `z-10`, etc.).
 
 #### Background Dinámico (Capa 0)
 
@@ -580,11 +720,11 @@ El background es parte de la identidad de RAIOS. Características:
 Componentes que "flotan" sobre el background usan glassmorphism para dejar entrever la capa inferior.
 
 ```jsx
-// Componente GlassSurface base
+// Componente GlassSurface base (variante surface)
 <div className="
-  bg-raios-secondary/80
-  backdrop-blur-xl
-  border border-white/10
+  bg-raios-secondary/75
+  backdrop-blur-sm
+  border border-raios-text-support/10
   shadow-[0_8px_32px_rgba(0,0,0,0.4)]
 ">
   {children}
@@ -672,54 +812,11 @@ Cuando se abre un modal/panel/sheet, el backdrop debe:
 | Confirmaciones | Modal | Acción puntual |
 | Quick view | Sheet | Preview, no reemplaza detalle |
 
-#### GlassPanel - Menú de Usuario
-
-Contenido estándar del panel de menú:
-
-```
-┌─────────────────────┐
-│ Avatar + Nombre     │
-│ @username           │
-├─────────────────────┤
-│ 🎨 Mis Obras        │
-│ 🛒 Mis Compras      │
-│ 💰 Ventas           │
-│ 👤 Perfil           │
-├─────────────────────┤
-│ ⚙️ Configuración    │
-│ 🚪 Cerrar Sesión    │
-└─────────────────────┘
-```
-
-#### SearchOverlay (Componente pendiente)
-
-Patrón de búsqueda global:
-
-```
-┌────────────────────────────────────────────┐
-│ 🔍 [___Buscar obras, artistas..._______]  X│
-├────────────────────────────────────────────┤
-│ Recientes                                  │
-│ • Búsqueda anterior 1                      │
-│ • Búsqueda anterior 2                      │
-├────────────────────────────────────────────┤
-│ Sugerencias                                │
-│ • 🎨 Categoría: Digital                    │
-│ • 👤 Artista: Carlos Mendez                │
-│ • 🖼️ Obra: Reflejos Nocturnos             │
-└────────────────────────────────────────────┘
-```
-
-Características:
-- Overlay de pantalla completa con GlassSurface
-- Input con autofocus al abrir
-- Resultados en tiempo real (debounced)
-- ESC o click fuera cierra
-- Mobile: pantalla completa sin backdrop visible
-
 ---
 
 ### 🎛️ Componentes Especializados (Patrones)
+
+> **Nota:** Esta sección documenta los patrones detallados de cada componente especializado, incluyendo estructura, decisiones de diseño y layouts responsivos.
 
 #### MenuPanel - "Command Center"
 

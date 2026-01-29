@@ -67,7 +67,7 @@
     background: var(--glass-bg);
     backdrop-filter: blur(var(--glass-blur));
     border-bottom: 1px solid var(--glass-border);
-    z-index: var(--z-fixed);
+    z-index: var(--z-navigation);
   }
 
   /* === ART CARD === */
