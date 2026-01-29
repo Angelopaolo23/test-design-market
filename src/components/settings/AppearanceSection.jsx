@@ -1,43 +1,42 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FiCheck } from 'react-icons/fi';
 import { GlassSurface } from '../ui/GlassSurface';
+import { useApp } from '../../context';
 
 /**
  * AppearanceSection - Sección de apariencia en Settings
  *
- * Selector de fondo animado
+ * Selector de fondo animado conectado al estado global (AppContext)
  *
  * Jerarquía: glow_subtle - Preferencias terciarias, personalización visual
  */
 export function AppearanceSection({ on_change }) {
-  const [selected_background, set_selected_background] = useState('wave_grid');
+  const { active_background, set_active_background } = useApp();
 
+  // Backgrounds disponibles (deben coincidir con AVAILABLE_BACKGROUNDS)
   const backgrounds = [
     {
       id: 'wave_grid',
-      name: 'Wave Grid',
+      name: 'Waves',
+      description: 'Grid de ondas suaves',
       preview: 'linear-gradient(135deg, #4A1FFF 0%, #0A0218 100%)',
     },
     {
-      id: 'waves',
-      name: 'Waves',
+      id: 'magnetic_field',
+      name: 'Aurora',
+      description: 'Líneas de campo magnético',
       preview: 'linear-gradient(135deg, #8E5CFF 0%, #0A0218 100%)',
     },
     {
-      id: 'orbs',
-      name: 'Orbs',
+      id: 'particle_grid',
+      name: 'P. Grid',
+      description: 'Grid de partículas con movimiento',
       preview: 'radial-gradient(circle at 30% 30%, #4A1FFF 0%, #0A0218 70%)',
-    },
-    {
-      id: 'minimal',
-      name: 'Minimal',
-      preview: 'linear-gradient(180deg, #0A0218 0%, #1a0a30 100%)',
     },
   ];
 
   const handle_select = (bg_id) => {
-    set_selected_background(bg_id);
+    set_active_background(bg_id);
     on_change?.(bg_id);
   };
 
@@ -56,7 +55,7 @@ export function AppearanceSection({ on_change }) {
       </p>
 
       {/* Background options */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-3 gap-3">
         {backgrounds.map((bg) => (
           <motion.button
             key={bg.id}
@@ -66,11 +65,12 @@ export function AppearanceSection({ on_change }) {
             className={`
               relative aspect-video rounded-lg overflow-hidden
               border-2 transition-colors
-              ${selected_background === bg.id
+              ${active_background === bg.id
                 ? 'border-raios-primary'
                 : 'border-transparent hover:border-raios-text-support/30'
               }
             `}
+            title={bg.description}
           >
             {/* Preview */}
             <div
@@ -79,7 +79,7 @@ export function AppearanceSection({ on_change }) {
             />
 
             {/* Check mark */}
-            {selected_background === bg.id && (
+            {active_background === bg.id && (
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}

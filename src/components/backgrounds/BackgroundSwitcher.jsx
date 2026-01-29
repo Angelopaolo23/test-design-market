@@ -5,22 +5,27 @@ import ParticleGrid from './ParticleGrid';
 import { AVAILABLE_BACKGROUNDS } from './index';
 
 /**
- * BackgroundSwitcher - Componente para cambiar entre backgrounds durante desarrollo
+ * BackgroundSwitcher - Componente para cambiar entre backgrounds
  *
  * Props:
  * - default_background: ID del background por defecto ('wave_grid')
+ * - active_background: ID controlado externamente (opcional)
  * - show_controls: Mostrar controles de selección (default: true)
  * - on_change: Callback cuando cambia el background
  */
 const BackgroundSwitcher = ({
   default_background = 'wave_grid',
+  active_background: controlled_background,
   show_controls = true,
   on_change,
 }) => {
-  const [active_background, set_active_background] = useState(default_background);
+  const [internal_background, set_internal_background] = useState(default_background);
+
+  // Usar el valor controlado si existe, sino usar el interno
+  const active_background = controlled_background ?? internal_background;
 
   const handle_change = (bg_id) => {
-    set_active_background(bg_id);
+    set_internal_background(bg_id);
     on_change?.(bg_id);
   };
 

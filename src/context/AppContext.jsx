@@ -31,6 +31,9 @@ export function AppProvider({ children }) {
   const [is_menu_open, set_is_menu_open] = useState(false);
   const [is_cart_open, set_is_cart_open] = useState(false);
 
+  // Estado del background
+  const [active_background, set_active_background] = useState('wave_grid');
+
   // Estado del carrito
   const [cart_items, set_cart_items] = useState([
     {
@@ -154,6 +157,10 @@ export function AppProvider({ children }) {
     // Usuario (mock)
     user: MOCK_USER,
     user_stats: MOCK_STATS,
+
+    // Background
+    active_background,
+    set_active_background,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

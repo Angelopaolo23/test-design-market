@@ -34,6 +34,8 @@ export function AppLayout({ children }) {
     cart_items,
     update_cart_quantity,
     remove_from_cart,
+    // Background
+    active_background,
   } = useApp();
 
   // Handlers de navegación desde paneles
@@ -55,9 +57,12 @@ export function AppLayout({ children }) {
 
   return (
     <>
-      {/* Background dinámico - Capa 0 (global) */}
+      {/* Background dinámico - Capa 0 (global, controlado por AppContext) */}
       <div className="fixed inset-0 z-0">
-        <BackgroundSwitcher show_controls={false} default_background="wave_grid" />
+        <BackgroundSwitcher
+          show_controls={false}
+          active_background={active_background}
+        />
       </div>
 
       {/* Contenido de la página */}
