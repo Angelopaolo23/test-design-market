@@ -554,10 +554,11 @@ Antes de comenzar la refactorización del frontend real, verificar:
 
 - [x] Todas las tareas marcadas como completadas
 - [x] Progress tracker al 100%
-- [ ] `npm run dev` sin errores
-- [ ] Todas las páginas navegables y funcionales
+- [x] `npm run dev` sin errores críticos
+- [x] Todas las páginas navegables y funcionales
 - [x] Documentación actualizada
 - [x] MIGRATION_GUIDE.md creado
+- [x] **Integración de navegación global completada**
 
 ---
 
@@ -604,6 +605,9 @@ npm run lint     # Verificar código
 | 2026-01-28 | Implementación sistema shadow-glow hierarchy (3 niveles) | Claude |
 | 2026-01-28 | Aplicación jerarquía glow en ArtworkDetail y Settings | Claude |
 | 2026-01-28 | Documentación framework "Next Best Action" en Design System | Claude |
+| 2026-01-29 | Integración navegación global (AppContext, AppLayout) | Claude |
+| 2026-01-29 | Navbar conectada a paneles globales (Search, Menu, Cart) | Claude |
+| 2026-01-29 | Limpieza de páginas (Landing, ArtworkDetail, Settings) | Claude |
 
 ---
 
@@ -651,6 +655,67 @@ El glow es para **elementos de UI**, no para contenido visualmente dominante:
 - Hero images → Ninguno
 
 > **Principio:** "La imagen atrae, el glow guía"
+
+---
+
+## Arquitectura de Navegación Global
+
+### Estructura
+
+```
+App.jsx
+├── ToastProvider (notificaciones)
+├── BrowserRouter (rutas)
+└── AppProvider (estado global)
+    └── AppLayout
+        ├── BackgroundSwitcher (Capa 0 - fondo dinámico)
+        ├── {children} (páginas)
+        ├── SearchOverlay (panel global)
+        ├── MenuPanel (panel global)
+        └── CartPanel (panel global)
+```
+
+### AppContext (src/context/AppContext.jsx)
+
+Estado global que maneja:
+
+| Estado | Descripción |
+|--------|-------------|
+| `is_search_open`, `is_menu_open`, `is_cart_open` | Visibilidad de paneles |
+| `cart_items`, `cart_count` | Estado del carrito |
+| `search_results`, `search_loading` | Estado de búsqueda |
+| `user`, `user_stats` | Datos del usuario (mock) |
+
+### Navbar Integrada
+
+La Navbar ahora usa `useApp()` para:
+- Abrir SearchOverlay al hacer clic en 🔍
+- Abrir CartPanel al hacer clic en 🛒
+- Abrir MenuPanel al hacer clic en 👤
+- Navegar a /settings al hacer clic en ⚙️
+- Mostrar contador dinámico del carrito
+
+### Flujo de Navegación
+
+```
+Usuario en cualquier página
+        ↓
+Click en icono de Navbar
+        ↓
+Navbar llama a open_search/open_cart/open_menu
+        ↓
+AppContext actualiza estado
+        ↓
+AppLayout renderiza el panel correspondiente
+```
+
+### Páginas Limpias
+
+Las páginas (Landing, ArtworkDetail, Settings) ahora:
+- No manejan estado de paneles localmente
+- No tienen su propio BackgroundSwitcher
+- Usan `useApp()` para acciones como `add_to_cart`
+- Solo contienen Navbar, contenido específico, y Footer
 
 ---
 
