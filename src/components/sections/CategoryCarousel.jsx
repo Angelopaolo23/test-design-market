@@ -7,6 +7,10 @@ import { raios_transitions } from '../../utils/animations';
  * CategoryCarousel - Carrusel de obras por categoría
  * Diseño spotlight: obra central destacada, laterales claramente separadas
  *
+ * Layout híbrido (igual que FeaturedWorks):
+ * - Full-width hasta xl (inmersivo en Landing)
+ * - max-w-[1600px] centrado en 2xl+ (evita expansión infinita en ultrawide)
+ *
  * @param {Object} props
  * @param {string} props.title - Título de la sección (ej: "Categorías")
  * @param {Array} props.categories - Lista de categorías disponibles
@@ -164,8 +168,10 @@ export function CategoryCarousel({
 
   return (
     <section className="py-12 md:py-16 overflow-hidden">
-      {/* Header: Título + Tags de categoría */}
-      <div className="px-4 md:px-8 lg:px-16 mb-8">
+      {/* Contenedor con max-width para pantallas ultrawide - igual que FeaturedWorks */}
+      <div className="max-w-[1600px] 2xl:mx-auto">
+        {/* Header: Título + Tags de categoría */}
+        <div className="px-4 md:px-8 lg:px-16 mb-8">
         <h2 className="font-mono text-2xl md:text-3xl text-raios-text-high font-bold mb-6">
           {title}
         </h2>
@@ -403,6 +409,7 @@ export function CategoryCarousel({
           </div>
         </motion.div>
       )}
+      </div>
     </section>
   );
 }

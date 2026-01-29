@@ -118,7 +118,10 @@ const mock_artworks = [
 
 /**
  * FeaturedWorks - Sección de obras destacadas con layout Masonry
- * Full-width con mínimo padding, grid irregular
+ *
+ * Layout híbrido:
+ * - Full-width hasta xl (inmersivo en Landing)
+ * - max-w-[1600px] centrado en 2xl+ (evita imágenes gigantes en ultrawide)
  */
 export function FeaturedWorks() {
   const handle_favorite = (artwork_id) => {
@@ -135,73 +138,76 @@ export function FeaturedWorks() {
 
   return (
     <section className="py-8 md:py-12">
-      {/* Header con padding normal */}
-      <div className="px-4 md:px-6 mb-6">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-          <div>
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="font-mono text-2xl md:text-3xl text-raios-text-high"
-            >
-              Obras Destacadas
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="font-sans text-base text-raios-text-support mt-2 max-w-xl"
-            >
-              Descubre las piezas más populares de nuestra colección,
-              seleccionadas por su impacto visual y originalidad.
-            </motion.p>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-          >
-            <Button
-              variant="ghost"
-              icon={<FiArrowRight />}
-              icon_position="right"
-            >
-              Ver todas
-            </Button>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Masonry Grid - Full width con mínimo padding */}
-      <div className="px-1 md:px-2">
-        <div className="masonry-grid">
-          {mock_artworks.map((artwork) => (
-            <div
-              key={artwork.id}
-              className="masonry-item"
-              style={{
-                breakInside: 'avoid',
-                marginBottom: '4px',
-              }}
-            >
-              <ArtworkCard
-                artwork_id={artwork.id}
-                title={artwork.title}
-                artist_name={artwork.artist_name}
-                price={artwork.price}
-                image_url={artwork.image_url}
-                tags={artwork.tags}
-                description={artwork.description}
-                on_favorite={handle_favorite}
-                on_add_to_cart={handle_add_to_cart}
-                on_click={handle_click}
-              />
+      {/* Contenedor con max-width para pantallas ultrawide */}
+      <div className="max-w-[1600px] 2xl:mx-auto">
+        {/* Header con padding normal */}
+        <div className="px-4 md:px-6 mb-6">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+            <div>
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="font-mono text-2xl md:text-3xl text-raios-text-high"
+              >
+                Obras Destacadas
+              </motion.h2>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                className="font-sans text-base text-raios-text-support mt-2 max-w-xl"
+              >
+                Descubre las piezas más populares de nuestra colección,
+                seleccionadas por su impacto visual y originalidad.
+              </motion.p>
             </div>
-          ))}
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+            >
+              <Button
+                variant="ghost"
+                icon={<FiArrowRight />}
+                icon_position="right"
+              >
+                Ver todas
+              </Button>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Masonry Grid - Full width con mínimo padding */}
+        <div className="px-1 md:px-2">
+          <div className="masonry-grid">
+            {mock_artworks.map((artwork) => (
+              <div
+                key={artwork.id}
+                className="masonry-item"
+                style={{
+                  breakInside: 'avoid',
+                  marginBottom: '4px',
+                }}
+              >
+                <ArtworkCard
+                  artwork_id={artwork.id}
+                  title={artwork.title}
+                  artist_name={artwork.artist_name}
+                  price={artwork.price}
+                  image_url={artwork.image_url}
+                  tags={artwork.tags}
+                  description={artwork.description}
+                  on_favorite={handle_favorite}
+                  on_add_to_cart={handle_add_to_cart}
+                  on_click={handle_click}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 

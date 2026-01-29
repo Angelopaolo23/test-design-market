@@ -7,10 +7,15 @@ import { motion } from 'framer-motion';
  * Variantes predefinidas según RAIOS Design System:
  * - light: bg-white/10, para overlays sutiles
  * - dark: bg-black/30, para botones sobre imágenes
- * - surface: bg-raios-secondary/80, para modales y paneles (default)
+ * - surface: bg-raios-secondary/80, para modales y paneles flotantes (default)
+ * - content: bg más sólido con borde violeta sutil, para secciones de contenido
+ *            que necesitan destacarse del background animado
+ *
+ * NOTA: Usar 'content' en vistas críticas (ArtworkDetail, Settings, etc.)
+ * donde el contenido compite visualmente con el background.
  *
  * @param {Object} props
- * @param {'light' | 'dark' | 'surface'} props.variant - Variante de glassmorphism
+ * @param {'light' | 'dark' | 'surface' | 'content'} props.variant - Variante de glassmorphism
  * @param {'none' | 'subtle' | 'float' | 'glow'} props.shadow - Tipo de sombra
  * @param {boolean} props.has_border - Mostrar borde sutil
  * @param {string} props.class_name - Clases adicionales
@@ -32,12 +37,17 @@ const GlassSurface = forwardRef(function GlassSurface(
     light: 'bg-white/10 backdrop-blur-md',
     dark: 'bg-black/30 backdrop-blur-md',
     surface: 'bg-raios-secondary/80 backdrop-blur-xl',
+    // Variante 'content' para secciones de contenido principal
+    // 60% opacidad + blur suave
+    content: 'bg-[rgba(10,2,24,0.60)] backdrop-blur-sm',
   };
 
   const border_classes = {
     light: 'border border-white/20',
     dark: 'border border-white/10',
     surface: 'border border-raios-text-support/10',
+    // Híbrido: borde general sutil + línea inferior violeta (accent line)
+    content: 'border border-raios-text-support/15 border-b-raios-primary/40',
   };
 
   const shadow_classes = {

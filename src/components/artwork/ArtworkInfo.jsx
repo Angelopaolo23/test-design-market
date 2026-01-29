@@ -88,8 +88,8 @@ export function ArtworkInfo({
         )}
       </div>
 
-      {/* Acciones de compra */}
-      <div className="flex flex-col gap-4 mb-8">
+      {/* Acciones de compra - max-width para evitar expansión infinita en ultrawide */}
+      <div className="flex flex-col gap-4 mb-8 max-w-md">
         {/* Cantidad */}
         <div>
           <p className="text-xs text-raios-text-support uppercase tracking-wider mb-2 font-mono">

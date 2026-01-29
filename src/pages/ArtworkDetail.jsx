@@ -199,7 +199,7 @@ export function ArtworkDetail() {
       </div>
 
       {/* Contenido principal - Capa 1 */}
-      <main className="relative z-10 pt-4 pb-12">
+      <main className="relative z-10 pt-20 md:pt-24 pb-12">
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
           {/* Hero: Imagen + Info */}
           <motion.section
@@ -213,16 +213,15 @@ export function ArtworkDetail() {
               <ImageGallery
                 images={artwork.images}
                 title={artwork.title}
-                on_zoom={(index) => console.log('Zoom imagen:', index)}
               />
             </div>
 
             {/* Info de la obra */}
             <div>
               <GlassSurface
-                variant="surface"
-                shadow="float"
-                className="p-5 md:p-6 lg:p-8 rounded-xl"
+                variant="content"
+                shadow="glow"
+                class_name="p-5 md:p-6 lg:p-8 rounded-xl"
               >
                 <ArtworkInfo
                   artwork={artwork}

@@ -105,7 +105,24 @@ Esta sección define las directrices visuales para los componentes clave de la i
 | **Art Card / Masonry**                 | Sin bordes ni sombras. Layout de grilla irregular. Texto clave (`font-mono`) en `raios-text-high` flotando sobre la imagen.                         | **Secundario**, `raios-text-high`, `font-mono`.               | Audaz, experimental, la obra es protagonista.             |
 | **Bloque Promocional Audaz (Artista)** | Bloque horizontal `w-full`. Imagen con filtro/opacidad baja sobre fondo `raios-secondary`. **Título H1/H2** en `font-mono` y `raios-text-high`.     | **Secundario**, `raios-text-high`, `raios-tertiary` (acento). | Interrupción visual, jerarquía alta, dramático.           |
 | **Bloque de Categoría/Noticia**        | Bloque vertical (ej. `w-1/2`). Fondo `raios-secondary`. **Línea de Separación** en color `raios-primary` para energía. Título en `font-mono`.       | **Primario** (línea), **Secundario**, `raios-text-high`.      | Informativo, angular, contenido curado.                   |
-| **Vistas Críticas (Detalle/Carrito)**  | **NO Glassmorphism**. Fondo sólido `raios-secondary`. Texto de alto contraste. Layout asimétrico (60/40) a favor de la imagen.                      | **Secundario**, `raios-text-high`.                            | Legibilidad, Claridad, Dramatismo simple.                 |
+| **Vistas Críticas (Detalle/Settings)** | Secciones de contenido envueltas en `GlassSurface variant="content"` para separación clara del background. Layout asimétrico (60/40) a favor de la imagen. | **Secundario**, `raios-text-high`, **`glass-content`**.       | Legibilidad, Claridad, Separación visual.                 |
+
+> **IMPORTANTE - Clarificación sobre "Vistas Críticas":**
+>
+> La regla original "NO Glassmorphism" se refería a evitar transparencia excesiva **en las imágenes de las obras de arte**, no en los contenedores de UI.
+>
+> **Interpretación correcta:**
+> - ❌ NO aplicar glassmorphism/transparencia a las imágenes de obras (el arte es protagonista)
+> - ✅ SÍ usar `GlassSurface variant="content"` para contenido que necesita legibilidad (ArtworkInfo, Comments, Settings)
+> - ✅ SÍ usar `GlassSurface variant="surface"` para elementos flotantes transitorios (Navbar, modales, paneles)
+>
+> **Razón:** Con backgrounds animados, el contenido necesita separación visual para ser legible. La variante `content` usa un fondo casi sólido (95% opacidad) con borde violeta sutil que crea una separación clara sin perder la cohesión visual.
+>
+> **Cuándo usar cada variante:**
+> | Variante | Opacidad | Borde | Uso |
+> | :------- | :------- | :---- | :-- |
+> | `surface` | 80% | muy sutil | Navbar, modales, CartPanel, MenuPanel |
+> | `content` | 95% | violeta sutil | ArtworkInfo, Comments, Settings sections |
 
 ---
 
@@ -135,7 +152,10 @@ El glassmorphism complementa el neo-brutalismo agregando profundidad y sofistica
 | :---- | :---- | :------------ |
 | `glass-light` | `bg-white/10 backdrop-blur-md border-white/20` | Botones secundarios, overlays sutiles. |
 | `glass-dark` | `bg-black/30 backdrop-blur-md border-white/10` | Botones sobre imágenes, acciones flotantes. |
-| `glass-surface` | `bg-raios-secondary/80 backdrop-blur-lg border-raios-text-support/10` | Navbar, modales, paneles flotantes. |
+| `glass-surface` | `bg-raios-secondary/80 backdrop-blur-xl border-raios-text-support/10` | Navbar, modales, paneles flotantes. |
+| `glass-content` | `bg-[rgba(12,4,28,0.95)] backdrop-blur-xl border-raios-primary/15` | **Secciones de contenido crítico** (ArtworkInfo, Settings, Comments). |
+
+> **NUEVO - glass-content:** Esta variante fue añadida para resolver el problema de legibilidad cuando el contenido compite visualmente con el background animado. Usa un fondo casi sólido (95% opacidad) con un tinte violeta muy sutil y borde primary visible.
 
 #### Tokens de Sombras
 
@@ -150,12 +170,15 @@ El glassmorphism complementa el neo-brutalismo agregando profundidad y sofistica
 | Contexto | Estilo | Ejemplo |
 | :------- | :----- | :------ |
 | Fondos principales | Sólido (`raios-secondary`) | Body, secciones. |
-| Elementos flotantes | Glassmorphism + shadow | Navbar, modales, tooltips. |
+| Elementos flotantes | `glass-surface` + shadow | Navbar, modales, tooltips, CartPanel. |
+| **Contenido sobre background** | **`glass-content`** | **ArtworkInfo, Settings sections, Comments.** |
 | Botones sobre imágenes | `glass-dark` | Favorito/carrito en cards. |
 | CTAs primarios | Sólido (`raios-primary`) | Deben destacar sobre el glass. |
 | Cards en spotlight | `shadow-float` | Carrusel, elementos destacados. |
 
 > **Principio:** El glassmorphism crea capas y profundidad. Usarlo en elementos de UI, no en el contenido artístico.
+
+> **IMPORTANTE - Regla de legibilidad:** Cuando el contenido necesita ser claramente legible sobre el background animado (formularios, información de producto, comentarios), usar `glass-content` en lugar de `glass-surface`. El background ligeramente más sólido garantiza la legibilidad sin sacrificar completamente la sensación de capas.
 
 ---
 

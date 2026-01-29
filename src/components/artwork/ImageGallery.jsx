@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiChevronLeft, FiChevronRight, FiZoomIn } from 'react-icons/fi';
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { raios_transitions } from '../../utils/animations';
 
 /**
@@ -12,12 +12,10 @@ import { raios_transitions } from '../../utils/animations';
  * @param {Object} props
  * @param {Array} props.images - Array de URLs de imágenes
  * @param {string} props.title - Título de la obra (para alt)
- * @param {Function} props.on_zoom - Callback para abrir zoom/lightbox
  */
 export function ImageGallery({
   images = [],
   title = 'Obra de arte',
-  on_zoom,
 }) {
   const [current_index, set_current_index] = useState(0);
 
@@ -40,8 +38,10 @@ export function ImageGallery({
 
   return (
     <div className="relative">
-      {/* Imagen principal */}
-      <div className="relative aspect-[4/5] max-h-[60vh] md:max-h-[65vh] lg:max-h-[70vh] bg-raios-secondary rounded-none overflow-hidden">
+      {/* Imagen principal - object-contain para mostrar imagen completa sin recorte */}
+      {/* Altura limitada: 50vh mobile, 55vh tablet, 60vh desktop - evita desborde en imágenes verticales */}
+      {/* bg-raios-secondary para coherencia cromática con el resto de la app */}
+      <div className="relative h-[50vh] md:h-[55vh] lg:h-[60vh] max-h-[600px] bg-raios-secondary rounded-none overflow-hidden flex items-center justify-center">
         <AnimatePresence mode="wait">
           <motion.img
             key={current_index}
@@ -51,22 +51,9 @@ export function ImageGallery({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={raios_transitions.standard}
-            className="w-full h-full object-cover"
+            className="max-w-full max-h-full object-contain"
           />
         </AnimatePresence>
-
-        {/* Botón de zoom */}
-        {on_zoom && (
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => on_zoom(current_index)}
-            className="absolute top-4 right-4 p-3 rounded-full bg-black/40 backdrop-blur-sm text-white hover:bg-black/60 transition-colors"
-            aria-label="Ampliar imagen"
-          >
-            <FiZoomIn size={20} />
-          </motion.button>
-        )}
 
         {/* Flechas de navegación - solo si hay más de una imagen */}
         {images.length > 1 && (

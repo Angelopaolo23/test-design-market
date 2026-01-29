@@ -7,12 +7,13 @@ module.exports = {
   theme: {
     extend: {
       // 1. PALETA DE COLORES PERSONALIZADA (raios-primary, raios-secondary, etc.)
+      // Usando formato que permite opacidades con sintaxis /XX (ej: bg-raios-secondary/50)
       colors: {
-        "raios-primary": "#4A1FFF", // Azul Violeta Eléctrico (Acento/CTA)
-        "raios-secondary": "#0A0218", // Morado Espacial Profundo (Fondo Base)
-        "raios-tertiary": "#8E5CFF", // Lavanda Brillante (Luz/Efectos)
-        "raios-text-high": "#FFFFFF", // Blanco Puro (Texto principal)
-        "raios-text-support": "#A8A8B3", // Gris Claro (Metadatos/Soporte)
+        "raios-primary": "rgb(74 31 255 / <alpha-value>)", // #4A1FFF - Azul Violeta Eléctrico (Acento/CTA)
+        "raios-secondary": "rgb(10 2 24 / <alpha-value>)", // #0A0218 - Morado Espacial Profundo (Fondo Base)
+        "raios-tertiary": "rgb(142 92 255 / <alpha-value>)", // #8E5CFF - Lavanda Brillante (Luz/Efectos)
+        "raios-text-high": "rgb(255 255 255 / <alpha-value>)", // #FFFFFF - Blanco Puro (Texto principal)
+        "raios-text-support": "rgb(168 168 179 / <alpha-value>)", // #A8A8B3 - Gris Claro (Metadatos/Soporte)
       },
 
       // 2. SISTEMA DE ESPACIADO DE 6PX

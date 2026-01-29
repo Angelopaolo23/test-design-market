@@ -94,3 +94,57 @@ export const stagger_item_variants = {
     transition: raios_transitions.standard,
   },
 };
+
+// Variantes para overlay (backdrop)
+export const overlay_variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: raios_transitions.fast },
+  exit: { opacity: 0, transition: raios_transitions.fast },
+};
+
+// Variantes para modal (centro de pantalla)
+export const modal_variants = {
+  hidden: { opacity: 0, scale: 0.95, y: 10 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: raios_transitions.standard
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.98,
+    y: 5,
+    transition: raios_transitions.fast
+  },
+};
+
+// Variantes para panel lateral (slide desde derecha)
+export const panel_variants = {
+  hidden: { x: '100%', opacity: 0 },
+  visible: {
+    x: 0,
+    opacity: 1,
+    transition: raios_transitions.standard
+  },
+  exit: {
+    x: '100%',
+    opacity: 0,
+    transition: raios_transitions.fast
+  },
+};
+
+// Variantes para sheet (slide desde abajo - mobile)
+export const sheet_variants = {
+  hidden: { y: '100%', opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: raios_transitions.standard
+  },
+  exit: {
+    y: '100%',
+    opacity: 0,
+    transition: raios_transitions.fast
+  },
+};
