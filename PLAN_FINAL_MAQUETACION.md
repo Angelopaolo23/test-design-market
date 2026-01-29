@@ -608,6 +608,10 @@ npm run lint     # Verificar código
 | 2026-01-29 | Integración navegación global (AppContext, AppLayout) | Claude |
 | 2026-01-29 | Navbar conectada a paneles globales (Search, Menu, Cart) | Claude |
 | 2026-01-29 | Limpieza de páginas (Landing, ArtworkDetail, Settings) | Claude |
+| 2026-01-29 | Enlaces de obras (carrusel/masonry) → ArtworkDetail | Claude |
+| 2026-01-29 | Unificación estilo botón favoritos (carrusel = ArtworkInfo) | Claude |
+| 2026-01-29 | Conexión selector de background en Settings al estado global | Claude |
+| 2026-01-29 | **MAQUETACIÓN LISTA PARA REFACTORIZACIÓN** | Claude + Usuario |
 
 ---
 
@@ -685,6 +689,7 @@ Estado global que maneja:
 | `cart_items`, `cart_count` | Estado del carrito |
 | `search_results`, `search_loading` | Estado de búsqueda |
 | `user`, `user_stats` | Datos del usuario (mock) |
+| `active_background`, `set_active_background` | Background dinámico global |
 
 ### Navbar Integrada
 
