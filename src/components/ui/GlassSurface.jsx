@@ -38,13 +38,14 @@ const GlassSurface = forwardRef(function GlassSurface(
   },
   ref
 ) {
+  // Variantes usando clases de Tailwind (definidas en tailwind.config.js)
   const variant_classes = {
     light: 'bg-white/10 backdrop-blur-md',
     dark: 'bg-black/30 backdrop-blur-md',
     // 75% opacidad + blur suave para navbar/footer/paneles
-    surface: 'bg-raios-secondary/75 backdrop-blur-sm',
+    surface: 'bg-glass-surface backdrop-blur-sm',
     // 60% opacidad + blur suave para secciones de contenido
-    content: 'bg-[rgba(10,2,24,0.60)] backdrop-blur-sm',
+    content: 'bg-glass-content backdrop-blur-sm',
   };
 
   const border_classes = {
@@ -55,13 +56,14 @@ const GlassSurface = forwardRef(function GlassSurface(
     content: 'border border-raios-text-support/15 border-b-raios-primary/40',
   };
 
+  // Sombras usando clases de Tailwind (definidas en tailwind.config.js)
   const shadow_classes = {
     none: '',
-    subtle: 'shadow-[0_4px_16px_rgba(0,0,0,0.2)]',
-    float: 'shadow-[0_8px_32px_rgba(0,0,0,0.4)]',
-    glow_high: 'shadow-[0_0_30px_rgba(74,31,255,0.5)]',
-    glow: 'shadow-[0_0_20px_rgba(74,31,255,0.3)]',
-    glow_subtle: 'shadow-[0_0_12px_rgba(74,31,255,0.15)]',
+    subtle: 'shadow-subtle',
+    float: 'shadow-float',
+    glow_high: 'shadow-glow-high',
+    glow: 'shadow-glow',
+    glow_subtle: 'shadow-glow-subtle',
   };
 
   const classes = `

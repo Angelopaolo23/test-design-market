@@ -1,9 +1,6 @@
 /* Importar fuentes de Google Fonts (Montserrat y Space Mono) */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
 
-/* Design System Tokens */
-@import './styles/tokens.css';
-
 /* Tailwind directives */
 @tailwind base;
 @tailwind components;
@@ -33,17 +30,13 @@
   .btn {
     @apply inline-flex items-center justify-center font-sans font-semibold;
     @apply rounded-lg cursor-pointer select-none;
-    transition: var(--transition-normal);
+    @apply transition-all duration-normal;
   }
 
   .btn-primary {
     @apply btn bg-raios-primary text-raios-text-high;
     @apply hover:bg-white hover:text-raios-primary;
-    box-shadow: var(--shadow-glow-primary);
-  }
-
-  .btn-primary:hover {
-    box-shadow: var(--shadow-lg);
+    @apply shadow-glow-primary hover:shadow-raios-lg;
   }
 
   .btn-secondary {
@@ -63,18 +56,15 @@
 
   /* === NAVBAR GLASS === */
   .nav-glass {
-    @apply fixed top-0 left-0 right-0;
-    background: var(--glass-bg);
-    backdrop-filter: blur(var(--glass-blur));
-    border-bottom: 1px solid var(--glass-border);
-    z-index: var(--z-navigation);
+    @apply fixed top-0 left-0 right-0 z-30;
+    @apply bg-glass-surface backdrop-blur-glass border-b border-glass;
   }
 
   /* === ART CARD === */
   .art-card {
     @apply relative overflow-hidden rounded-lg;
     @apply cursor-pointer;
-    transition: var(--transition-normal);
+    @apply transition-all duration-normal;
   }
 
   .art-card:hover {
