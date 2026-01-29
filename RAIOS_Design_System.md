@@ -233,6 +233,7 @@ Mismos estilos que Input, con `min-h-[120px]` y `resize-y`
 | `no_items` | FiPackage | "No hay elementos" |
 | `no_favorites` | FiHeart | "Sin favoritos" |
 | `no_comments` | FiMessageCircle | "Sin comentarios" |
+| `no_artworks` | FiImage | "Sin obras" |
 | `error` | FiAlertCircle | "Algo salió mal" |
 
 #### Estilos
@@ -241,6 +242,30 @@ Mismos estilos que Input, con `min-h-[120px]` y `resize-y`
 - Descripción: `font-sans text-raios-text-support`
 - Centrado vertical y horizontal
 - Animación entrada: fade + scale sutil
+
+#### Reglas de Uso: ¿Cuándo incluir acción?
+
+La prop `action` es **opcional**. Usar según el contexto:
+
+| Variante | ¿Acción? | Razón | Ejemplo |
+| :------- | :------- | :---- | :------ |
+| `no_results` | ✅ Sí | Usuario "atrapado" sin salida | "Limpiar filtros", "Explorar todo" |
+| `no_items` | ⚠️ Depende | Si hay forma de agregar desde otro lugar | "Ir a comprar" (carrito vacío) |
+| `no_favorites` | ✅ Sí | Invitar a explorar | "Descubrir obras" |
+| `no_comments` | ❌ No | Input de comentario ya visible arriba | — |
+| `no_artworks` | ⚠️ Depende | Varía según quién ve (ver abajo) | — |
+| `error` | ✅ Sí | Ofrecer recuperación | "Reintentar", "Ir al inicio" |
+
+**Caso especial `no_artworks`:**
+
+| Contexto | ¿Acción? | Razón |
+| :------- | :------- | :---- |
+| Perfil propio del artista | ✅ Sí | "Publicar tu primera obra" |
+| Perfil de otro artista | ❌ No | Visitante no puede hacer nada |
+| Categoría vacía | ✅ Sí | "Explorar otras categorías" |
+| Colección vacía del usuario | ✅ Sí | "Agregar obras" |
+
+**Principio general:** Incluir acción cuando el usuario está "atrapado" y necesita una salida. Omitir cuando el contexto ya provee la acción (ej: input visible) o cuando el usuario no puede hacer nada al respecto
 
 ---
 

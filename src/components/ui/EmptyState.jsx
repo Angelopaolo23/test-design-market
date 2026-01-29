@@ -5,6 +5,7 @@ import {
   FiHeart,
   FiMessageCircle,
   FiAlertCircle,
+  FiImage,
 } from 'react-icons/fi';
 import { Button } from './Button';
 import { raios_transitions } from '../../utils/animations';
@@ -54,6 +55,11 @@ export function EmptyState({
       icon: FiMessageCircle,
       title: 'Sin comentarios',
       default_description: 'Sé el primero en comentar.',
+    },
+    no_artworks: {
+      icon: FiImage,
+      title: 'Sin obras',
+      default_description: 'Aún no hay obras publicadas.',
     },
     error: {
       icon: FiAlertCircle,

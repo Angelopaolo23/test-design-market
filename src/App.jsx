@@ -5,6 +5,7 @@ import { AppLayout } from './components/layout';
 import { Landing } from './pages/Landing';
 import { ArtworkDetail } from './pages/ArtworkDetail';
 import { Settings } from './pages/Settings';
+import ComponentDemo from './pages/ComponentDemo';
 
 /**
  * App - Componente raíz de la aplicación
@@ -25,6 +26,7 @@ function App() {
               <Route path="/" element={<Landing />} />
               <Route path="/artwork/:id" element={<ArtworkDetail />} />
               <Route path="/settings" element={<Settings />} />
+              <Route path="/demo" element={<ComponentDemo />} />
             </Routes>
           </AppLayout>
         </AppProvider>
