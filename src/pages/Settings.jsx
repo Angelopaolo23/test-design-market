@@ -4,7 +4,6 @@ import { FiArrowLeft } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../components/layout/Navbar';
 import { Footer } from '../components/layout/Footer';
-import { BackgroundSwitcher } from '../components/backgrounds';
 import {
   SettingsTabs,
   ProfileSection,
@@ -24,6 +23,9 @@ import { slide_up_variants, raios_transitions } from '../utils/animations';
  * - Cuenta: Perfil, Notificaciones, Apariencia, Zona de peligro
  * - Direcciones: Lista de direcciones de envío
  * - Vendedor: Configuración de tienda y pagos
+ *
+ * Los paneles (Search, Menu, Cart) se manejan globalmente desde AppLayout.
+ * El background dinámico también está en AppLayout.
  */
 export function Settings() {
   const navigate = useNavigate();
@@ -127,19 +129,12 @@ export function Settings() {
   };
 
   return (
-    <div className="min-h-screen bg-raios-secondary overflow-x-hidden">
-      {/* Background dinámico - Capa 0 */}
-      <div className="fixed inset-0 z-0">
-        <BackgroundSwitcher show_controls={false} default_background="waves" />
-      </div>
+    <div className="min-h-screen bg-transparent overflow-x-hidden relative z-10">
+      {/* Navbar */}
+      <Navbar />
 
-      {/* Navbar - Capa 2 */}
-      <div className="relative z-30">
-        <Navbar />
-      </div>
-
-      {/* Contenido principal - Capa 1 */}
-      <main className="relative z-10 pt-20 md:pt-24 pb-12">
+      {/* Contenido principal */}
+      <main className="pt-20 md:pt-24 pb-12">
         <div className="max-w-3xl mx-auto px-4 md:px-6">
           {/* Header */}
           <motion.div
@@ -180,9 +175,7 @@ export function Settings() {
       </main>
 
       {/* Footer */}
-      <div className="relative z-10">
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 }

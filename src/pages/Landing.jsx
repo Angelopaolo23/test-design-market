@@ -1,19 +1,9 @@
-import { useState } from 'react';
 import { Navbar } from '../components/layout/Navbar';
 import { Footer } from '../components/layout/Footer';
 import { Hero } from '../components/sections/Hero';
 import { CategoryCarousel } from '../components/sections/CategoryCarousel';
 import { FeaturedWorks } from '../components/sections/FeaturedWorks';
-import { BackgroundSwitcher } from '../components/backgrounds';
-import {
-  GlassModal,
-  GlassPanel,
-  GlassSheet,
-  GlassSurface,
-  MenuPanel,
-  CartPanel,
-  SearchOverlay,
-} from '../components/ui';
+import { useApp } from '../context';
 
 // Datos mock para el carrusel de categorías
 const carousel_categories = ['Fotografía', 'Óleo', 'Digital', 'Minimalista'];
@@ -139,83 +129,16 @@ const carousel_artworks = [
 
 /**
  * Landing - Página principal del marketplace
+ *
+ * Los paneles (Search, Menu, Cart) se manejan globalmente desde AppLayout.
+ * El background dinámico también está en AppLayout.
  */
 export function Landing() {
-  // Estado para demo de glassmorphism (temporal para desarrollo)
-  const [show_modal, set_show_modal] = useState(false);
-  const [show_panel, set_show_panel] = useState(false);
-  const [show_sheet, set_show_sheet] = useState(false);
-  const [show_menu, set_show_menu] = useState(false);
-  const [show_cart, set_show_cart] = useState(false);
-  const [show_search, set_show_search] = useState(false);
-
-  // Mock data para demos
-  const mock_user = {
-    name: 'Elena Vega',
-    username: 'elenavega',
-    avatar_url: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop',
-    is_verified: true,
-    is_artist: true,
-  };
-
-  const mock_stats = {
-    obras: 12,
-    ventas: '$45K',
-    likes: 89,
-  };
-
-  const [cart_items, set_cart_items] = useState([
-    {
-      id: 'cart-1',
-      title: 'Reflejos Nocturnos',
-      artist_name: 'Elena Vega',
-      price: 2900,
-      quantity: 1,
-      image_url: 'https://images.unsplash.com/photo-1482160549825-59d1b23cb208?w=200&h=200&fit=crop',
-    },
-    {
-      id: 'cart-2',
-      title: 'Fragmentos de Luz',
-      artist_name: 'María Soledad',
-      price: 3400,
-      quantity: 1,
-      image_url: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=200&h=200&fit=crop',
-    },
-  ]);
-
-  const [search_results, set_search_results] = useState(null);
-  const [search_loading, set_search_loading] = useState(false);
-
-  // Handlers para cart
-  const handle_update_quantity = (item_id, new_quantity) => {
-    set_cart_items(items =>
-      items.map(item =>
-        item.id === item_id ? { ...item, quantity: new_quantity } : item
-      )
-    );
-  };
-
-  const handle_remove_item = (item_id) => {
-    set_cart_items(items => items.filter(item => item.id !== item_id));
-  };
-
-  // Handler para búsqueda (mock)
-  const handle_search = (query) => {
-    set_search_loading(true);
-    // Simular delay de API
-    setTimeout(() => {
-      set_search_results([
-        { id: 'r1', type: 'artwork', title: 'Reflejos Nocturnos', artist_name: 'Elena Vega', category: 'Fotografía', price: '$2,900', image_url: 'https://images.unsplash.com/photo-1482160549825-59d1b23cb208?w=100&h=100&fit=crop' },
-        { id: 'r2', type: 'artwork', title: 'Reflections', artist_name: 'Carlos M.', category: 'Digital', price: '$1,500', image_url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&h=100&fit=crop' },
-        { id: 'r3', type: 'artist', name: 'Reflective Studio', works_count: 24 },
-        { id: 'r4', type: 'category', name: 'Reflexiones' },
-      ]);
-      set_search_loading(false);
-    }, 500);
-  };
+  const { add_to_cart } = useApp();
 
   const handle_artwork_click = (artwork_id) => {
     console.log('Artwork clicked:', artwork_id);
+    // En producción: navigate(`/artwork/${artwork_id}`)
   };
 
   const handle_category_change = (category) => {
@@ -223,7 +146,18 @@ export function Landing() {
   };
 
   const handle_add_to_cart = (artwork_id) => {
-    console.log('Add to cart:', artwork_id);
+    // Buscar la obra en los datos
+    const artwork = carousel_artworks.find((a) => a.artwork_id === artwork_id);
+    if (artwork) {
+      add_to_cart({
+        id: artwork.artwork_id,
+        title: artwork.title,
+        artist_name: artwork.artist_name,
+        price: artwork.price,
+        image_url: artwork.image_url,
+        quantity: 1,
+      });
+    }
   };
 
   const handle_favorite = (artwork_id) => {
@@ -231,14 +165,11 @@ export function Landing() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Background dinámico (Capa 0) */}
-      <BackgroundSwitcher default_background="wave_grid" />
-
-      {/* Navbar fijo con glassmorphism */}
+    <div className="min-h-screen flex flex-col relative z-10">
+      {/* Navbar */}
       <Navbar />
 
-      {/* Contenido principal con padding-top para el navbar fijo */}
+      {/* Contenido principal */}
       <main className="flex-1 pt-[72px]">
         {/* Hero Section */}
         <Hero />
@@ -261,146 +192,6 @@ export function Landing() {
 
       {/* Footer */}
       <Footer />
-
-      {/* === DEMO GLASSMORPHISM (eliminar en producción) === */}
-      {/* Botones de prueba - fijos en esquina */}
-      <div className="fixed top-20 right-4 z-30 flex flex-col gap-2">
-        <GlassSurface
-          variant="surface"
-          shadow="subtle"
-          className="p-3 rounded-lg"
-        >
-          <p className="text-xs text-raios-text-support mb-2 font-mono">Test UI</p>
-          <div className="flex flex-col gap-1">
-            <button
-              onClick={() => set_show_search(true)}
-              className="px-3 py-1.5 text-xs bg-raios-tertiary text-white rounded hover:bg-raios-tertiary/80"
-            >
-              🔍 Search
-            </button>
-            <button
-              onClick={() => set_show_menu(true)}
-              className="px-3 py-1.5 text-xs bg-raios-primary text-white rounded hover:bg-raios-primary/80"
-            >
-              👤 Menu
-            </button>
-            <button
-              onClick={() => set_show_cart(true)}
-              className="px-3 py-1.5 text-xs bg-raios-primary text-white rounded hover:bg-raios-primary/80"
-            >
-              🛒 Cart ({cart_items.length})
-            </button>
-            <hr className="border-raios-text-support/20 my-1" />
-            <button
-              onClick={() => set_show_modal(true)}
-              className="px-3 py-1 text-xs bg-white/10 text-raios-text-support rounded hover:bg-white/20"
-            >
-              Modal
-            </button>
-            <button
-              onClick={() => set_show_panel(true)}
-              className="px-3 py-1 text-xs bg-white/10 text-raios-text-support rounded hover:bg-white/20"
-            >
-              Panel
-            </button>
-            <button
-              onClick={() => set_show_sheet(true)}
-              className="px-3 py-1 text-xs bg-white/10 text-raios-text-support rounded hover:bg-white/20"
-            >
-              Sheet
-            </button>
-          </div>
-        </GlassSurface>
-      </div>
-
-      {/* SearchOverlay */}
-      <SearchOverlay
-        is_open={show_search}
-        on_close={() => set_show_search(false)}
-        on_search={handle_search}
-        on_select_result={(result) => console.log('Selected:', result)}
-        results={search_results}
-        is_loading={search_loading}
-        recent_searches={['óleo abstracto', 'fotografía urbana', 'Elena Vega']}
-      />
-
-      {/* MenuPanel */}
-      <MenuPanel
-        is_open={show_menu}
-        on_close={() => set_show_menu(false)}
-        user={mock_user}
-        stats={mock_stats}
-        on_navigate={(path) => console.log('Navigate to:', path)}
-        on_logout={() => console.log('Logout')}
-      />
-
-      {/* CartPanel */}
-      <CartPanel
-        is_open={show_cart}
-        on_close={() => set_show_cart(false)}
-        items={cart_items}
-        on_update_quantity={handle_update_quantity}
-        on_remove_item={handle_remove_item}
-        on_checkout={() => console.log('Go to checkout')}
-        on_continue_shopping={() => console.log('Continue shopping')}
-      />
-
-      {/* Modal de prueba */}
-      <GlassModal
-        is_open={show_modal}
-        on_close={() => set_show_modal(false)}
-        title="GlassModal Demo"
-        size="md"
-      >
-        <div className="space-y-4">
-          <p className="text-raios-text-support">
-            Modal para confirmaciones y acciones rápidas.
-          </p>
-          <GlassSurface variant="light" class_name="p-4 rounded-lg">
-            <p className="text-sm text-raios-text-high">Contenido del modal</p>
-          </GlassSurface>
-        </div>
-      </GlassModal>
-
-      {/* Panel lateral de prueba */}
-      <GlassPanel
-        is_open={show_panel}
-        on_close={() => set_show_panel(false)}
-        title="GlassPanel Demo"
-        size="md"
-        position="right"
-      >
-        <div className="space-y-4">
-          <p className="text-raios-text-support">
-            Panel genérico para contenido lateral.
-          </p>
-        </div>
-      </GlassPanel>
-
-      {/* Sheet de prueba */}
-      <GlassSheet
-        is_open={show_sheet}
-        on_close={() => set_show_sheet(false)}
-        title="GlassSheet Demo"
-        height="md"
-      >
-        <div className="space-y-4">
-          <p className="text-raios-text-support">
-            Bottom sheet para acciones en mobile.
-          </p>
-          <div className="grid grid-cols-2 gap-2">
-            {['Acción 1', 'Acción 2', 'Acción 3', 'Acción 4'].map((action) => (
-              <button
-                key={action}
-                className="p-3 bg-raios-primary/20 rounded-lg text-raios-text-high text-sm hover:bg-raios-primary/30"
-              >
-                {action}
-              </button>
-            ))}
-          </div>
-        </div>
-      </GlassSheet>
-      {/* === FIN DEMO === */}
     </div>
   );
 }

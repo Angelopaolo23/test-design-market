@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Navbar } from '../components/layout/Navbar';
 import { Footer } from '../components/layout/Footer';
-import { BackgroundSwitcher } from '../components/backgrounds';
 import { ImageGallery, ArtworkInfo, CommentsSection, RelatedWorks } from '../components/artwork';
 import { GlassSurface } from '../components/ui/GlassSurface';
-import { CartPanel } from '../components/ui/CartPanel';
-import { MenuPanel } from '../components/ui/MenuPanel';
 import { slide_up_variants, raios_transitions } from '../utils/animations';
+import { useApp } from '../context';
 
 /**
  * ArtworkDetail - Página de detalle de obra
@@ -16,19 +14,18 @@ import { slide_up_variants, raios_transitions } from '../utils/animations';
  * Layout responsive:
  * - Mobile: Stack vertical (imagen → info → comentarios → relacionados)
  * - Desktop: Dos columnas (imagen izq | info der) + secciones abajo
+ *
+ * Los paneles (Search, Menu, Cart) se manejan globalmente desde AppLayout.
+ * El background dinámico también está en AppLayout.
  */
 export function ArtworkDetail() {
   const { id } = useParams();
-  const navigate = useNavigate();
+  const { add_to_cart } = useApp();
 
   // Estados de UI
-  const [is_cart_open, set_is_cart_open] = useState(false);
-  const [is_menu_open, set_is_menu_open] = useState(false);
   const [is_favorite, set_is_favorite] = useState(false);
-  const [cart_items, set_cart_items] = useState([]);
 
   // ============ DATOS DEMO ============
-  // En producción, estos vendrían de una API usando el `id`
   const artwork = {
     id: id || '1',
     title: 'Reflejos Nocturnos',
@@ -109,48 +106,18 @@ export function ArtworkDetail() {
       image_url: 'https://images.unsplash.com/photo-1515405295579-ba7b45403062?w=600&q=80',
     },
   ];
-
-  // Usuario demo para MenuPanel
-  const demo_user = {
-    name: 'Elena Vega',
-    username: 'elenavega',
-    avatar_url: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80',
-    is_verified: true,
-    is_artist: true,
-  };
-
-  const demo_stats = {
-    obras: 12,
-    ventas: '$45K',
-    likes: 89,
-  };
   // ============ FIN DATOS DEMO ============
 
   // Handlers
   const handle_add_to_cart = (artwork_data, quantity) => {
-    const new_item = {
+    add_to_cart({
       id: artwork_data.id,
       title: artwork_data.title,
       artist_name: artwork_data.artist_name,
       price: artwork_data.price,
       image_url: artwork_data.images?.[0],
       quantity,
-    };
-
-    set_cart_items((prev) => {
-      const existing = prev.find((item) => item.id === new_item.id);
-      if (existing) {
-        return prev.map((item) =>
-          item.id === new_item.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
-      }
-      return [...prev, new_item];
     });
-
-    // Abrir carrito después de agregar
-    set_is_cart_open(true);
   };
 
   const handle_favorite = () => {
@@ -165,7 +132,6 @@ export function ArtworkDetail() {
         url: window.location.href,
       });
     } else {
-      // Fallback: copiar URL
       navigator.clipboard.writeText(window.location.href);
       alert('URL copiada al portapapeles');
     }
@@ -173,12 +139,10 @@ export function ArtworkDetail() {
 
   const handle_comment_submit = (content) => {
     console.log('Nuevo comentario:', content);
-    // En producción: enviar a API
   };
 
   const handle_comment_like = (comment_id) => {
     console.log('Like a comentario:', comment_id);
-    // En producción: enviar a API
   };
 
   // Scroll to top on mount
@@ -187,19 +151,12 @@ export function ArtworkDetail() {
   }, [id]);
 
   return (
-    <div className="min-h-screen bg-raios-secondary overflow-x-hidden">
-      {/* Background dinámico - Capa 0 */}
-      <div className="fixed inset-0 z-0">
-        <BackgroundSwitcher show_controls={false} default_background="waves" />
-      </div>
+    <div className="min-h-screen bg-transparent overflow-x-hidden relative z-10">
+      {/* Navbar */}
+      <Navbar />
 
-      {/* Navbar - Capa 2 */}
-      <div className="relative z-30">
-        <Navbar />
-      </div>
-
-      {/* Contenido principal - Capa 1 */}
-      <main className="relative z-10 pt-20 md:pt-24 pb-12">
+      {/* Contenido principal */}
+      <main className="pt-20 md:pt-24 pb-12">
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
           {/* Hero: Imagen + Info */}
           <motion.section
@@ -282,38 +239,7 @@ export function ArtworkDetail() {
       </main>
 
       {/* Footer */}
-      <div className="relative z-10">
-        <Footer />
-      </div>
-
-      {/* Panels - Capa 3 */}
-      <CartPanel
-        is_open={is_cart_open}
-        on_close={() => set_is_cart_open(false)}
-        items={cart_items}
-        on_update_quantity={(id, qty) => {
-          set_cart_items((prev) =>
-            prev.map((item) => (item.id === id ? { ...item, quantity: qty } : item))
-          );
-        }}
-        on_remove_item={(id) => {
-          set_cart_items((prev) => prev.filter((item) => item.id !== id));
-        }}
-        on_checkout={() => console.log('Ir a checkout')}
-        on_continue_shopping={() => set_is_cart_open(false)}
-      />
-
-      <MenuPanel
-        is_open={is_menu_open}
-        on_close={() => set_is_menu_open(false)}
-        user={demo_user}
-        stats={demo_stats}
-        on_navigate={(path) => {
-          console.log('Navegar a:', path);
-          set_is_menu_open(false);
-        }}
-        on_logout={() => console.log('Logout')}
-      />
+      <Footer />
     </div>
   );
 }
